@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "container:"
+      name = "App">
+      <FileRef
+         location = "group:App">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Core">
+      <FileRef
+         location = "group:SeleneApi">
+      </FileRef>
+      <FileRef
+         location = "group:SeleneAuth">
+      </FileRef>
+      <FileRef
+         location = "group:SeleneCore">
+      </FileRef>
+   </Group>
+</Workspace>
