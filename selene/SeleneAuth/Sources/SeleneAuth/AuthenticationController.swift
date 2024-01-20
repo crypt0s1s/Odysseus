@@ -24,7 +24,10 @@ struct AuthenticationController: AuthenticatedController {
     func boot(with builder: RoutesBuilder) throws {
         let passwordProtected = builder.grouped(User.authenticator(), User.guardMiddleware())
         passwordProtected.post("login", use: login)
-        
+
+        // TODO: has seperate auth requirements for create user. This should only be done through a workflow / service
+        // TODO: consider the above todo. Might have a flow to create account through ui and through services.
+        // They could probably be the same thing though
         builder.post("users", use: createUser)
     }
     
