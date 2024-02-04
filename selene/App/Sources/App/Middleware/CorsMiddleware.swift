@@ -7,6 +7,7 @@
 
 import Vapor
 
+// TODO: move to a core package
 extension Application {
     func setupCorsMiddleware() {
         // TODO: update

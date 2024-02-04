@@ -4,30 +4,29 @@ import FluentPostgresDriver
 import Stitch
 import SeleneAuth
 
-// configures your application
-public func configure(_ app: Application) async throws {
-    // uncomment to serve files from /Public folder
-    // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
+extension Application {
+    func configure() async throws {
+        self.setupCorsMiddleware()
+        self.databases.use(
+            .postgres(configuration:
+                .init(
+                    hostname: "localhost",
+                    port: 5432,
+                    // TODO: how can I change this username?
+                    username: "joshuasumskas",
+                    database: "Coeus",
+//                  TODO: look into other options for this
+                    tls: .prefer(try .init(configuration: .clientDefault))
+                )
+            ),
+            as: .psql
+        )
+        self.migrations.add(MyMigration(), to: .psql)
+        self.repositories.register(.catalogueRepository) { FluentCatalogueRepository($0) }
 
-    app.setupCorsMiddleware()
-    app.databases.use(
-        .postgres(configuration:
-            .init(
-                hostname: "localhost",
-                port: 5432,
-                username: "joshuasumskas",
-                database: "Coeus",
-                // TODO: change this
-//                tls: .disable
-                tls: .prefer(try .init(configuration: .clientDefault))
-            )
-        ),
-        as: .psql
-    )
-    app.migrations.add(MyMigration(), to: .psql)
-    app.repositories.register(.catalogueRepository) { FluentCatalogueRepository($0) }
+        // TODO: do this in a better way
+        try await SeleneAuth.configure(self)
 
-    try await SeleneAuth.configure(app)
-
-    try routes(app)
+        try routes()
+    }
 }

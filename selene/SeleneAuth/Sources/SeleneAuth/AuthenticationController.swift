@@ -34,6 +34,7 @@ struct AuthenticationController: AuthenticatedController {
     private func login(req: Request) throws -> ClientTokenReponse {
         let user = try req.auth.require(User.self)
         let payload = try SessionToken(with: user)
+        req.logger.info("login request \(user), \(payload)")
         return ClientTokenReponse(token: try req.jwt.sign(payload))
     }
     

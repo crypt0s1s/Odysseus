@@ -1,23 +1,25 @@
 import Vapor
 
-func routes(_ app: Application) throws {
-    try app.register(collection: CatalogueController())
-    try app.register(collection: PokemonController())
-    try app.register(collection: TranslationsController())
+extension Application {
+    func routes() throws {
+        try self.register(collection: CatalogueController())
+        try self.register(collection: PokemonController())
+        try self.register(collection: TranslationsController())
 
-    app.get { _ async in
-        "It works!"
-    }
+        self.get { _ async in
+            "It works!"
+        }
 
-    app.get("hello") { _ async -> String in
-        "Hello, world!"
-    }
+        self.get("hello") { _ async -> String in
+            "Hello, world!"
+        }
 
-    app.get("hello2") { _ async -> String in
-        "Hello, world! 2"
-    }
+        self.get("hello2") { _ async -> String in
+            "Hello, world! 2"
+        }
 
-    app.get("hello3") { _ async -> String in
-        "3"
+        self.get("hello3") { _ async -> String in
+            "3"
+        }
     }
 }

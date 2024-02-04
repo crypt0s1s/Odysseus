@@ -20,6 +20,7 @@ public func configure(_ app: Application) async throws {
     try routes(app)
 }
 
+// TODO: move this
 final class UserToken: Model, Content {
     static let schema = "user_tokens"
 
