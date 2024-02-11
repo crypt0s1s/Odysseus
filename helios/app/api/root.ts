@@ -1,12 +1,13 @@
 import { createContext, useContext } from 'react'
 import { types, Instance } from 'mobx-state-tree'
-import { UserStore, AuthStore } from '.'
+import { AuthStore, CatalogueStore, ProfileStore } from '.'
 
 type RootStoreModel = Instance<typeof RootStore>
 
 const RootStore = types.model("RootStore", {
   auth: AuthStore,
-  user: UserStore,
+  profile: ProfileStore,
+  catalogue: CatalogueStore,
 })
 
 // TODO: add what I need to for env? Maybe a logger.
@@ -17,11 +18,12 @@ type RootStoreEnv = {
 
 const createStore = (): RootStoreModel => {
   const auth = AuthStore.create()
-  const user = UserStore.create()
+  const profile = ProfileStore.create()
+  const catalogue = CatalogueStore.create()
 
   const env: RootStoreEnv = { }
 
-  return RootStore.create({ auth, user }, env)
+  return RootStore.create({ auth, profile, catalogue }, env)
 }
 
 export const rootStore = createStore()

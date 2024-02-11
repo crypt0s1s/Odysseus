@@ -7,22 +7,20 @@ struct CatalogueController: RouteCollection {
         let catalogue = routes.grouped("catalogue")
 
         catalogue.get(use: getCatalogue)
-        catalogue.post(use: createItem)
+        catalogue.post(use: createItems)
     }
 
     func getCatalogue(req: Request) async throws -> [Catalogue] {
-        do {
-            return try await req.repositories.catalogueRepository.get()
-        } catch {
-            print("error retrieving catalogue")
-        }
-
-        return []
+        return try await req.repositories.catalogueRepository.get()
     }
 
-    func createItem(req: Request) async throws -> Catalogue {
-        let item = try req.content.decode(Catalogue.self)
-        try await req.repositories.catalogueRepository.create(item: item)
-        return item
+    func createItems(req: Request) async throws -> [Catalogue] {
+        let items = try req.content.decode([Catalogue].self)
+ 
+        for item in items {
+            try await req.repositories.catalogueRepository.create(item: item)
+        }
+
+        return items
     }
 }

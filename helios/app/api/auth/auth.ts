@@ -1,5 +1,6 @@
-import { types } from 'mobx-state-tree';
+import { flow, types } from 'mobx-state-tree';
 import { authHeaderInterceptor, createHeliosApi } from '../core'
+import { ClientTokenResponse } from '.';
 
 const authUrl = 'auth'
 export const authApi = createHeliosApi(authUrl)
@@ -7,23 +8,24 @@ export const authenticatedAuthApi = createHeliosApi(authUrl, [authHeaderIntercep
 
 export const AuthStore = types
     .model("AuthStore", {
-        jwtToken: types.maybe(types.string)
+        jwtToken: types.maybeNull(types.string),
     })
     .actions((self) => ({
         async verifyJWT() {
             return await authenticatedAuthApi.post('validateLoggedInUser')
         },
-        async login(username: string, password: string) {
-            const basicToken = btoa(`${username}:${password}`)
-            const withBasicApi = authApi.extend({
-                headers: {
-                    'Authentication': `Basic ${basicToken}`
-                }
-            })
+        login: flow(function* login(username: string, password: string) {
+             const basicToken = btoa(`${username}:${password}`)
+             const withBasicApi = authApi.extend({
+                 headers: {
+                     'Authorization': `Basic ${basicToken}`
+                 }
+             })
 
-            // TODO: perform request. If successful return success.
+             let result = yield withBasicApi.post('login').json()
+             let ctr = result as ClientTokenResponse
 
-            return await withBasicApi.post('login')
-        },
+             self.jwtToken = ctr.token
+        })
     }))
 

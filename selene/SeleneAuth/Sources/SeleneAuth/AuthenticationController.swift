@@ -16,8 +16,7 @@ struct AuthenticationController: AuthenticatedController {
     }
 
     private func validateLoggedInUser(req: Request) throws -> HTTPStatus {
-        let sessionToken = try req.auth.require(SessionToken.self)
-        print(sessionToken.userId)
+        _ = try req.auth.require(SessionToken.self)
         return .ok
     }
     

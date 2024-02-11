@@ -1,5 +1,6 @@
 export * from './auth'
+export * from './catalogue'
 export * from './core'
-export * from './user'
+export * from './profile'
 export * from './root'
 

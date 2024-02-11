@@ -8,6 +8,6 @@
 import Vapor
 
 func routes(_ app: Application) throws {
-//    try app.register(collection: AuthController())
     try app.register(collection: AuthenticationController())
+    try app.register(collection: ProfileController())
 }

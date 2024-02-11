@@ -1,5 +1,6 @@
 import ky, { KyInstance } from "ky"
 
+// TODO: add to env
 const baseEndpoint = 'http://127.0.0.1:8080/'
 
 const baseApi = ky.create({

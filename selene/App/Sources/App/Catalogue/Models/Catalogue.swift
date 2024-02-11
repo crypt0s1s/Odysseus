@@ -13,6 +13,9 @@ final class Catalogue: Model, Content {
 
     @Field(key: "price")
     var price: Double
+    
+    @Field(key: "imageUrl")
+    var imageUrl: String
 
     // When this Catalogue was created.
     @Timestamp(key: "created_at", on: .create)
@@ -26,9 +29,10 @@ final class Catalogue: Model, Content {
     init() { }
 
     // Creates a new Planet with all properties set.
-    init(id: UUID? = nil, name: String, price: Double) {
+    init(id: UUID? = nil, name: String, price: Double, imageUrl: String) {
         self.id = id
         self.name = name
         self.price = price
+        self.imageUrl = imageUrl
     }
 }

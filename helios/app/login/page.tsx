@@ -1,8 +1,9 @@
 'use client'
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StoreContext } from '../api';
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 
 export default function LoginPage() {
@@ -30,15 +31,20 @@ export default function LoginPage() {
 }
 
 function LoginForm() {
-    const { auth } = useContext(StoreContext)
+    const { auth, profile } = useContext(StoreContext)
+    const router = useRouter()
+
+    // TODO: see if I can definte mutations somewhere else?
     const loginMutation = useMutation({
         mutationFn: (event: any) => {
             event.preventDefault()
+
+            // TODO: validation. mabye using z
             var email = ''
             var password = ''
             try {
-                email = event.target.email.value
-                password = event.target.password.value
+                email = event.target?.email?.value
+                password = event.target?.password?.value
 
                 if (!password || !email)
                     throw new Error('Data is not in expected format')
@@ -50,6 +56,16 @@ function LoginForm() {
             return auth.login(email, password)
         }
     })
+
+    useEffect(() => {
+        if (!loginMutation.isSuccess) return
+
+        profile.getProfile()
+
+
+        // TODO: create a routes enum / const / thingy
+        router.push('/catalogue')
+    }, [loginMutation.isSuccess, profile, router])
 
     return (
         <form onSubmit={loginMutation.mutate}>

@@ -5,8 +5,9 @@ import { rootStore } from "../.."
  */
 export const authHeaderInterceptor = (request: Request) => {
     const authStore = rootStore.auth
+    console.log(`auth interceptor ${authStore.jwtToken}`)
     // TODO: do I want to create an auth store and import it directly?
     if (authStore.jwtToken == null) return
 
-    request.headers.set('Authentication', `Bearer ${authStore.jwtToken}`)
+    request.headers.set('Authorization', `Bearer ${authStore.jwtToken}`)
 }

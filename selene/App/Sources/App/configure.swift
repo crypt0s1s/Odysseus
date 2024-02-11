@@ -21,7 +21,7 @@ extension Application {
             ),
             as: .psql
         )
-        self.migrations.add(MyMigration(), to: .psql)
+        self.migrations.add(AddImageUrlField(), to: .psql)
         self.repositories.register(.catalogueRepository) { FluentCatalogueRepository($0) }
 
         // TODO: do this in a better way

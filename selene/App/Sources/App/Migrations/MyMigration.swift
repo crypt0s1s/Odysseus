@@ -1,11 +1,12 @@
 import Fluent
 import Vapor
 
-struct MyMigration: AsyncMigration {
+struct AddImageUrlField: AsyncMigration {
     func prepare(on database: Database) async throws {
         try await database.schema("catalogue")
             .id()
             .field("name", .string, .required)
+            .field("imageUrl", .string, .required)
             .field("price", .double, .required)
             .field("created_at", .datetime, .required)
             .field("updated_at", .datetime, .required)
