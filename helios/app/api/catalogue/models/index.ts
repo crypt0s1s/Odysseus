@@ -1,2 +1,2 @@
-export * from './item'
 export * from './catalogueItem'
+export * from './cartItem'

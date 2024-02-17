@@ -1,14 +1,24 @@
 import { createContext, useContext } from 'react'
-import { types, Instance } from 'mobx-state-tree'
+import { types, Instance, castToSnapshot } from 'mobx-state-tree'
 import { AuthStore, CatalogueStore, ProfileStore } from '.'
 
 type RootStoreModel = Instance<typeof RootStore>
+
+const Todo = types.model({
+      id: types.identifier,
+        task: types.string
+})
+
+const TodoStore = types.model({
+      todos: types.map(Todo)
+})
 
 const RootStore = types.model("RootStore", {
   auth: AuthStore,
   profile: ProfileStore,
   catalogue: CatalogueStore,
 })
+
 
 // TODO: add what I need to for env? Maybe a logger.
 // Need to think about how I want to logging.
@@ -23,7 +33,7 @@ const createStore = (): RootStoreModel => {
 
   const env: RootStoreEnv = { }
 
-  return RootStore.create({ auth, profile, catalogue }, env)
+  return RootStore.create({ auth, profile, catalogue: castToSnapshot(catalogue) }, env)
 }
 
 export const rootStore = createStore()
