@@ -1,6 +1,8 @@
 import { authHeaderInterceptor, createHeliosApi } from '../../core'
 import { flow, types } from 'mobx-state-tree';
 import { CatalogueItemModel, CartItemModel } from "./models";
+import { useQuery } from '@tanstack/react-query';
+import { rootStore } from '@/api';
 
 const catalogueUrl = 'catalogue'
 export const catalogueApi = createHeliosApi(catalogueUrl)
@@ -45,3 +47,10 @@ export const CatalogueStore = types
         }
     }))
 
+// TODO: move to another file in this level
+export const getCatalogue = () => {
+    return useQuery({
+        queryKey: ['catalogue'],
+        queryFn: rootStore.catalogue.getCatalogue
+    })
+}

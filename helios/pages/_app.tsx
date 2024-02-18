@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import Providers from "./_providers";
 import type { ReactElement, ReactNode } from 'react'
 import type { NextPage } from 'next'
+import '../helen/typography/styles.css'
  
 // TODO: change the name
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -14,7 +15,6 @@ type AppPropsWithLayout = AppProps & {
 }
  
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
-  // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
  
   return (
@@ -24,10 +24,3 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   )
 }
 
-// export default function App({ Component, pageProps }: AppProps) {
-//   return (
-//     <Providers>
-//       <Component {...pageProps} />
-//     </Providers>
-//   )
-// }

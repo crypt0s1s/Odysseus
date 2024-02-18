@@ -2,23 +2,15 @@ import Image from 'next/image'
 import minus from '../../helen/icons/minus.svg'
 import plus from '../../helen/icons/plus.svg'
 import { ReactElement, useContext } from 'react'
-import { CatalogueItem, StoreContext, rootStore } from '../../api'
-import { useQuery } from '@tanstack/react-query'
+import { CatalogueItem, StoreContext, getCatalogue } from '../../api'
 import { observer } from 'mobx-react-lite'
 import Layout from './_layout'
 import { NextPageWithLayout } from '../_app'
 
-// TODO: move this to the api area
-const catalogueQuery = () => {
-    return useQuery({
-        queryKey: ['catalogue'],
-        queryFn: rootStore.catalogue.getCatalogue
-    })
-}
 
 const CatalogueContent = observer(() => {
     const { catalogue } = useContext(StoreContext)
-    const { isPending, error, isSuccess } = catalogueQuery()
+    const { isPending, isSuccess } = getCatalogue()
 
     return (
         <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-4'>
