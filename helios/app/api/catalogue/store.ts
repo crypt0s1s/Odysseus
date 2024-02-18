@@ -8,13 +8,12 @@ export const authenticatedCatalogueApi = createHeliosApi(catalogueUrl, [authHead
 
 export const CatalogueStore = types
     .model("CatalogueStore", {
+        // TODO: consider turning into map
         catalogue: types.array(CatalogueItemModel),
         cart: types.map(CartItemModel)
     })
     .views((self) => ({
         getItemAmount(id: string): Number {
-            console.log(`id: ${id}`)
-            console.log(`value: ${self.cart.get(id)?.number ?? 0}`)
             return self.cart.get(id)?.number ?? 0
         }
     }))
@@ -37,8 +36,8 @@ export const CatalogueStore = types
 
             if (count == null) return
 
-            if (count == 0) {
-                self.cart.set(id, { id: id, number: 0 })
+            if (count <= 1) {
+                self.cart.delete(id)
                 return
             }
 

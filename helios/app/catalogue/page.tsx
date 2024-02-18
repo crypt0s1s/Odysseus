@@ -64,7 +64,6 @@ function CatalogueItemLoader() {
 }
 
 const CatalogueItemComponent = ({ item }: { item: CatalogueItem }) => {
-    console.log(`item: ${item}`)
     return (
          <div className='rounded-2xl flex flex-col bg-gray-200 items-center justify-between p-3'>
             <Image src={item.imageUrl} width={300} height={384} alt={`{item.name} image`} className='rounded-2xl' />
@@ -85,7 +84,6 @@ const CatalogueItemComponent = ({ item }: { item: CatalogueItem }) => {
 
 const AmountSelector = observer(({ id }: { id: string }) => {
     const { catalogue } = useContext(StoreContext)
-    console.log(`Amount selector id: ${id}`)
 
     return (
         <div className='w-full p-1 flex flex-row justify-between bg-white rounded-md'>

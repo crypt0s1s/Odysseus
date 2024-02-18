@@ -23,13 +23,40 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     );
 }
 
+const CartIcon = observer(() => {
+    const { catalogue } = useContext(StoreContext)
+    return (
+        <div className='relative'>
+            <Image priority width={30} height={30} src={cartIcon} alt="Shopping Cart"/>
+            { catalogue.cart.size > 0 &&
+                <div className='absolute -top-2 -right-2 select-none aspect-square h-6 w-6 rounded-md bg-sky-400 items-center'>
+                    <p className='align-center justify-center text-center'>
+                        {catalogue.cart.size}
+                    </p>
+                </div>
+            }
+        </div>
+    )
+})
+
 const NavBar = observer(() => {
     const { profile } = useContext(StoreContext)
-    if (profile.profile != null) {
-        return SignedInNavBar({ profile: profile.profile })
-    } else {
-        return SignedOutNavbar()
-    }
+    const router = useRouter()
+
+    return (
+        <div className="flex flex-row w-full bg-red-400 justify-end gap-4 items-center">
+            { profile.profile &&
+                <div>
+                    <h5>Good evening {profile.profile.displayName}</h5>
+                </div>
+            }
+            <CartIcon />
+            { profile.profile
+                ? <HeliosButton text="Profile" onClick={() => {console.log("profile in clicked")}}/>
+                : <HeliosButton text="Sign in" onClick={() => { router.push('login') }}/>
+            }
+        </div>
+    )
 })
 
 const Logo = () => {
