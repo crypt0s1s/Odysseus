@@ -43,4 +43,3 @@ class ApiResponseParser {
         return ApiError.server(statusCode: statusCode, payload: payload)
     }
 }
-

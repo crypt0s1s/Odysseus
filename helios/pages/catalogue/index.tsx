@@ -9,20 +9,20 @@ import { NextPageWithLayout } from '../_app'
 
 
 const CatalogueContent = observer(() => {
-    const { catalogue } = useContext(StoreContext)
-    const { isPending, isSuccess } = getCatalogue()
+  const { catalogue } = useContext(StoreContext)
+  const { isPending, isSuccess } = getCatalogue()
 
-    return (
-        <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-4'>
-        { isPending && [...Array(8)].map((_, i) => <CatalogueItemLoader key={i}/>) }
-        {
-            isSuccess &&
-                catalogue.catalogue.map(
-                    (item) => <CatalogueItemComponent item={item} />
-                )
-        }
-        </div>
-            )
+  return (
+    <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-4'>
+      { isPending && [...Array(8)].map((_, i) => <CatalogueItemLoader key={i}/>) }
+      {
+        isSuccess &&
+        catalogue.catalogue.map(
+          (item) => <CatalogueItemComponent item={item} key={item.id}/>
+        )
+      }
+    </div>
+  )
 })
 
 const Page: NextPageWithLayout = () => {
@@ -58,7 +58,7 @@ function CatalogueItemLoader() {
 const CatalogueItemComponent = ({ item }: { item: CatalogueItem }) => {
     return (
          <div className='rounded-2xl flex flex-col bg-gray-200 items-center justify-between p-3'>
-            <Image src={item.imageUrl} width={300} height={384} alt={`{item.name} image`} className='rounded-2xl' />
+            <Image src={item.imageUrl} width={0} priority={true} height={0} sizes="100vw" alt={`{item.name} image`} className='rounded-2xl  w-72' />
             <div className='pt-2 flex-col flex grow justify-end w-full'>
                 <div className='px-2 flex-row flex justify-between'>
                     <h2 className='text-xl text-black'>{item.name}</h2>

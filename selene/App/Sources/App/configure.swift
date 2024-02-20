@@ -7,20 +7,22 @@
 
 import Vapor
 import Fluent
-import FluentPostgresDriver
 import Stitch
 import SeleneAuth
+import SeleneCore
+import FluentPostgresDriver
 
 extension Application {
     func configure() async throws {
-        self.setupCorsMiddleware()
+        configureCore()
 
-        let hostname = Environment.process.DATABASE_HOSTNAME
-        let port = Int(Environment.process.DATABASE_PORT ?? "")
-        let username = Environment.process.DATABASE_USERNAME
-        let databaseName = Environment.process.DATABASE_NAME
+        // TODO: find some way to support this through xcode. IDK. a fall back
+        let hostname = Environment.process.DATABASE_HOSTNAME ?? ProcessInfo.processInfo.environment["DATABASE_HOSTNAME"]
+        let port = Int(Environment.process.DATABASE_PORT ?? ProcessInfo.processInfo.environment["DATABASE_PORT"] ?? "")
+        let username = Environment.process.DATABASE_USERNAME ?? ProcessInfo.processInfo.environment["DATABASE_USERNAME"]
+        let databaseName = Environment.process.DATABASE_NAME ?? ProcessInfo.processInfo.environment["DATABASE_NAME"]
         // TODO: add password
-        self.databases.use(
+        databases.use(
             .postgres(configuration:
                 .init(
                     hostname: hostname!,
@@ -33,11 +35,12 @@ extension Application {
             ),
             as: .psql
         )
-        self.migrations.add(AddImageUrlField(), to: .psql)
-        self.repositories.register(.catalogueRepository) { FluentCatalogueRepository($0) }
+        migrations.add(AddImageUrlField(), to: .psql)
+        repositories.register(.catalogueRepository) { FluentCatalogueRepository($0) }
 
         // TODO: do this in a better way
-        try await configureAuth(secret: Environment.process.SECRET!)
+        let secret = Environment.process.SECRET ?? ProcessInfo.processInfo.environment["SECRET"]
+        try await configureAuth(secret: secret!)
 
         try routes()
     }

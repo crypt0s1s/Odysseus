@@ -11,4 +11,3 @@ public protocol NetworkProcessor<Response> {
     associatedtype Response
     func process(_ request: URLRequest) async throws -> Response
 }
-

@@ -23,4 +23,3 @@ struct TranslationsController: RouteCollection {
         return try await repository.getYodaTranslation(of: text)
     }
 }
-

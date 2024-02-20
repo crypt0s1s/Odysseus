@@ -18,4 +18,3 @@ public struct DataTaskProcessor: NetworkProcessor {
         return NetworkResponse(data: data, response: response)
     }
 }
-

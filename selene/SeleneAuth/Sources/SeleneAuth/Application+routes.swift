@@ -9,7 +9,7 @@ import Vapor
 
 extension Application {
     func routes() throws {
-        try self.register(collection: AuthenticationController())
-        try self.register(collection: ProfileController())
+        try register(collection: AuthenticationController())
+        try register(collection: ProfileController())
     }
 }

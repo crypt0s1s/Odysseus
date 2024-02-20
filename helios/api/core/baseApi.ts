@@ -1,7 +1,6 @@
 import ky, { KyInstance } from "ky"
 
-// TODO: add to env
-const baseEndpoint = 'http://127.0.0.1:8080/'
+const baseEndpoint = process.env.NEXT_PUBLIC_BASE_ENDPOINT
 
 const baseApi = ky.create({
     headers: {

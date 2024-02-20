@@ -1,7 +1,6 @@
-#!/bin/sh
-
-#  swiftlint.sh
-#  
-#
-#  Created by Joshua Sumskas on 20/2/2024.
-#  
+# Type a script or drag a script file from your workspace to insert its path.
+if which swiftlint >/dev/null; then
+  swiftlint
+else
+  echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
+fi

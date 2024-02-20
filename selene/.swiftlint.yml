@@ -22,13 +22,19 @@ opt_in_rules: # included linting rules
 
 included: # included paths for linting
 
+# App
+- App
+
+# Core
+- SeleneApi
+- SeleneAuth
+- SeleneCore
+
 excluded: # excluded paths for linting
 
 - ./*/Tests
 - R.generated.swift
 - ./*/.build
-- .build/*
-- .swiftpm
 
 # Custom rule configurations
 
@@ -62,4 +68,3 @@ identifier_name:
 
 trailing_comma:
     mandatory_comma: true
-

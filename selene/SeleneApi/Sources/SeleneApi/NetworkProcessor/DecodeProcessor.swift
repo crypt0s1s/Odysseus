@@ -17,7 +17,6 @@ public struct DecodeProcessor<Decode: Decodable>: NetworkProcessor {
     public func process(_ request: URLRequest) async throws -> Decode {
         let response = try await processor.process(request)
         
-        // TODO: DI for json decoder
         let decoder = JSONDecoder()
         let data = try decoder.decode(Decode.self, from: response.data)
         return data

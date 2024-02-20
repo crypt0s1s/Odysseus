@@ -19,7 +19,7 @@ extension Application {
                 .origin,
                 .xRequestedWith,
                 .userAgent,
-                .accessControlAllowOrigin
+                .accessControlAllowOrigin,
             ]
         )
         let cors = CORSMiddleware(configuration: corsConfiguration)

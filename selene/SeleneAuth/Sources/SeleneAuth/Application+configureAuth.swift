@@ -10,12 +10,12 @@ import JWT
 
 extension Application {
     public func configureAuth(secret: String) async throws {
-        self.migrations.add(User.Migration())
+        migrations.add(User.Migration())
         
         // MARK: - JWT
         // TODO: is there a better way to pass in the secret?
-        self.jwt.signers.use(.hs256(key: secret))
+        jwt.signers.use(.hs256(key: secret))
 
-        try self.routes()
+        try routes()
     }
 }

@@ -41,6 +41,6 @@ let package = Package(
             "SeleneApi",
             "SeleneAuth",
             "SeleneCore",
-        ])
+        ]),
     ]
 )

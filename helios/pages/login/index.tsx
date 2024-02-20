@@ -5,13 +5,13 @@ import { useRouter } from 'next/navigation';
 
 
 export default function LoginPage() {
-    const { auth } = useContext(StoreContext)
+  const { auth } = useContext(StoreContext)
 
-    const verifyMutation = useMutation({
-        mutationFn: () => {
-            return auth.verifyJWT()
-        }
-    })
+  const verifyMutation = useMutation({
+    mutationFn: () => {
+      return auth.verifyJWT()
+    }
+  })
 
   return (
     <main className='flex items-center justify-center md:h-screen'>

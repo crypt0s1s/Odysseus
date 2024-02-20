@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <FileRef
+      location = "group:.env">
+   </FileRef>
    <Group
       location = "container:"
       name = "App">
       <FileRef
          location = "group:App">
       </FileRef>
+   </Group>
+   <Group
+      location = "group:CI"
+      name = "CI">
+      <Group
+         location = "group:Lint"
+         name = "Lint">
+         <FileRef
+            location = "group:.swiftlint.yml">
+         </FileRef>
+         <FileRef
+            location = "group:swiftlint.sh">
+         </FileRef>
+      </Group>
    </Group>
    <Group
       location = "container:"

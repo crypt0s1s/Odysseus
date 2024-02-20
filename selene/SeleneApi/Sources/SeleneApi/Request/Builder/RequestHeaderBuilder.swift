@@ -18,7 +18,7 @@ struct RequestHeaderBuilder: RequestBuilder {
     
     func build() throws -> URLRequest {
         var req = try builder.build()
-        let _ = headers.map {
+        _ = headers.map {
             req.setValue($0.value, forHTTPHeaderField: $0.key)
         }
         return req
