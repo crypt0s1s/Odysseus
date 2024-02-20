@@ -1,4 +1,3 @@
 export interface ClientTokenResponse {
-    token: string
+  token: string;
 }
-

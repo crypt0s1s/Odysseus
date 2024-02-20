@@ -1,12 +1,10 @@
-import { types, Instance } from 'mobx-state-tree'
+import { types, Instance } from "mobx-state-tree";
 
-export const ProfileModel = types
-    .model({
-        id: types.string,
-        displayName: types.string,
-        fullName: types.string,
-        email: types.string,
-    })
+export const ProfileModel = types.model({
+  id: types.string,
+  displayName: types.string,
+  fullName: types.string,
+  email: types.string,
+});
 
-export interface Profile extends Instance<typeof ProfileModel> { }
-
+export interface Profile extends Instance<typeof ProfileModel> {}
