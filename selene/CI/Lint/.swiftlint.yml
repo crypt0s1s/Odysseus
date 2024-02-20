@@ -1,0 +1,70 @@
+# SwiftLint Rules
+
+disabled_rules: # excluded linting rules
+
+- trailing_whitespace
+- multiple_closures_with_trailing_closure
+- nesting
+- orphaned_doc_comment
+- for_where
+- class_delegate_protocol
+- identifier_name
+- unhandled_throwing_task
+- inclusive_language
+
+opt_in_rules: # included linting rules
+
+- empty_count
+- control_statement
+- trailing_newline
+- accessibility_label_for_image
+- trailing_comma
+
+included: # included paths for linting
+
+# App
+- App
+
+# Core
+- SeleneApi
+- SeleneAuth
+- SeleneCore
+
+excluded: # excluded paths for linting
+
+- ./*/Tests
+- R.generated.swift
+- ./*/.build
+
+# Custom rule configurations
+
+type_body_length:
+    warning: 300
+    error: 500
+    
+large_tuple:
+    warning: 4
+    error: 5
+    
+line_length:
+    warning: 130
+    error: 200
+    
+type_name:
+    min_length: 3
+    max_length:
+        warning: 35
+        error: 40
+
+identifier_name:
+    min_length: 3
+    max_length:
+        warning: 35
+        error: 40
+    excluded:
+        - id
+        - ID
+        - _
+
+trailing_comma:
+    mandatory_comma: true
