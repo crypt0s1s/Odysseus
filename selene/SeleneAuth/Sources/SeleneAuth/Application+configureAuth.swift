@@ -9,12 +9,13 @@ import Vapor
 import JWT
 
 extension Application {
-    public func configureAuth(secret: String) async throws {
+    public func configureAuth() async throws {
         migrations.add(User.Migration())
         
         // MARK: - JWT
-        // TODO: is there a better way to pass in the secret?
-        jwt.signers.use(.hs256(key: secret))
+        // TODO: do I want to do this here?
+        let secret = Environment.process.SECRET ?? ProcessInfo.processInfo.environment["SECRET"]
+        jwt.signers.use(.hs256(key: secret!))
 
         try routes()
     }
