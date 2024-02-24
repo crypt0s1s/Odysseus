@@ -17,7 +17,7 @@ let package = Package(
     dependencies: [
         // 💧 A server-side Swift web framework.
         .package(url: "https://github.com/vapor/vapor.git", from: "4.89.0"),
-        .package(url: "https://github.com/entrhq/stitch.git", .upToNextMajor(from: "1.0.0")),
+        .package(url: "https://github.com/crypt0s1s/stitch_linux", .upToNextMajor(from: "1.0.2")),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -26,7 +26,7 @@ let package = Package(
             name: "SeleneApi",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                .product(name: "Stitch", package: "stitch"),
+                .product(name: "Stitch", package: "stitch_linux"),
             ]
         ),
         .testTarget(
@@ -34,7 +34,7 @@ let package = Package(
             dependencies: [
                 "SeleneApi",
                 .product(name: "XCTVapor", package: "vapor"),
-                .product(name: "Stitch", package: "stitch"),
+                .product(name: "Stitch", package: "stitch_linux"),
                 
                 // Workaround for https://github.com/apple/swift-package-manager/issues/6940
                 .product(name: "Vapor", package: "vapor"),

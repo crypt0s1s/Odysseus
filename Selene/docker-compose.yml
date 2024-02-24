@@ -15,7 +15,11 @@
 version: '3.7'
 
 x-shared_environment: &shared_environment
+  # TODO: update the env variables to grab from secrets file
   LOG_LEVEL: ${LOG_LEVEL:-debug}
+  DATABASE_HOST: db
+  DATABASE_NAME: Coeus
+  DATABASE_USERNAME: odysseus
   
 services:
   app:

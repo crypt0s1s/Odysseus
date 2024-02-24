@@ -20,10 +20,10 @@ extension Application {
     }
     
     private func initialiseTestDatabase() throws {
-        let hostname = Environment.process.TEST_DATABASE_HOSTNAME ?? ProcessInfo.processInfo.environment["TEST_DATABASE_HOSTNAME"]
-        let port = Int(Environment.process.TESTDATABASE_PORT ?? ProcessInfo.processInfo.environment["TEST_DATABASE_PORT"] ?? "")
-        let username = Environment.process.TEST_DATABASE_USERNAME ?? ProcessInfo.processInfo.environment["TEST_DATABASE_USERNAME"]
-        let databaseName = Environment.process.TEST_DATABASE_NAME ?? ProcessInfo.processInfo.environment["TEST_DATABASE_NAME"]
+        let hostname = Environment.processKey("TEST_DATABASE_HOSTNAME")
+        let port = Int(Environment.processKey("TEST_DATABASE_PORT") ?? "")
+        let username = Environment.processKey("TEST_DATABASE_USERNAME")
+        let databaseName = Environment.processKey("TEST_DATABASE_NAME")
         databases.use(
             .postgres(configuration:
                 .init(
@@ -41,10 +41,10 @@ extension Application {
     
     private func initialiseDatabase() throws {
         // TODO: Do this in a better way
-        let hostname = Environment.process.DATABASE_HOSTNAME ?? ProcessInfo.processInfo.environment["DATABASE_HOSTNAME"]
-        let port = Int(Environment.process.DATABASE_PORT ?? ProcessInfo.processInfo.environment["DATABASE_PORT"] ?? "")
-        let username = Environment.process.DATABASE_USERNAME ?? ProcessInfo.processInfo.environment["DATABASE_USERNAME"]
-        let databaseName = Environment.process.DATABASE_NAME ?? ProcessInfo.processInfo.environment["DATABASE_NAME"]
+        let hostname = Environment.processKey("DATABASE_HOSTNAME")
+        let port = Int(Environment.processKey("DATABASE_PORT") ?? "")
+        let username = Environment.processKey("DATABASE_USERNAME")
+        let databaseName = Environment.processKey("DATABASE_NAME")
         // TODO: add password
         databases.use(
             .postgres(configuration:

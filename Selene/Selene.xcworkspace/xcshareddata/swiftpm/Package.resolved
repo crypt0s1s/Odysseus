@@ -118,12 +118,12 @@
       }
     },
     {
-      "identity" : "stitch",
+      "identity" : "stitch_linux",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/entrhq/stitch.git",
+      "location" : "https://github.com/crypt0s1s/stitch_linux",
       "state" : {
-        "revision" : "e26561e44eafa1f951d7568100c6bb1b817e275c",
-        "version" : "1.0.0"
+        "revision" : "9cbdff66527c9e78bafe54fb42dd6a217dfe3dd6",
+        "version" : "1.0.2"
       }
     },
     {

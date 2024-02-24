@@ -19,7 +19,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/vapor.git", from: "4.89.0"),
         .package(url: "https://github.com/vapor/fluent.git", from: "4.0.0"),
         .package(url: "https://github.com/vapor/jwt.git", from: "4.0.0"),
-        .package(url: "https://github.com/entrhq/stitch.git", .upToNextMajor(from: "1.0.0")),
+        .package(url: "https://github.com/crypt0s1s/stitch_linux", .upToNextMajor(from: "1.0.2")),
         .package(path: "../SeleneCore"),
     ],
     targets: [
@@ -30,7 +30,7 @@ let package = Package(
             dependencies: [
                 "SeleneCore",
                 .product(name: "Vapor", package: "vapor"),
-                .product(name: "Stitch", package: "stitch"),
+                .product(name: "Stitch", package: "stitch_linux"),
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "JWT", package: "jwt"),
             ]
@@ -41,7 +41,7 @@ let package = Package(
                 "SeleneAuth",
                 "SeleneCore",
                 .product(name: "XCTVapor", package: "vapor"),
-                .product(name: "Stitch", package: "stitch"),
+                .product(name: "Stitch", package: "stitch_linux"),
                 
                 // Workaround for https://github.com/apple/swift-package-manager/issues/6940
                 .product(name: "Vapor", package: "vapor"),

@@ -13,9 +13,8 @@ extension Application {
         migrations.add(User.Migration())
         
         // MARK: - JWT
-        // TODO: do I want to do this here?
-        let secret = Environment.process.SECRET ?? ProcessInfo.processInfo.environment["SECRET"]
-        jwt.signers.use(.hs256(key: secret!))
+        let key = Environment.processKey("SECRET")
+        jwt.signers.use(.hs256(key: key!))
 
         try routes()
     }
