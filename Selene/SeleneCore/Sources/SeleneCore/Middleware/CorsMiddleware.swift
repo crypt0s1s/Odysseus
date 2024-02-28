@@ -10,6 +10,7 @@ import Vapor
 extension Application {
     func setupCorsMiddleware() {
         let corsConfiguration = CORSMiddleware.Configuration(
+            // TODO: update allowed origin
             allowedOrigin: .all,
             allowedMethods: [.GET, .POST, .PUT, .OPTIONS, .DELETE, .PATCH],
             allowedHeaders: [
