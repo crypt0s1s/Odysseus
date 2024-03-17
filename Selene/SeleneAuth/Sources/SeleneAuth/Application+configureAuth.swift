@@ -5,8 +5,8 @@
 //  Created by Joshua Sumskas on 7/1/2024.
 //
 
-import Vapor
 import JWT
+import Vapor
 
 extension Application {
     public func configureAuth() async throws {

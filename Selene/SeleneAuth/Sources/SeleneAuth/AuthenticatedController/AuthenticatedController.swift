@@ -12,7 +12,7 @@ public protocol AuthenticatedController: Controller {
     func bootAuthenticated(with builder: RoutesBuilder) throws
 }
 
-extension AuthenticatedController {
+public extension AuthenticatedController {
     func boot(routes: RoutesBuilder) throws {
         let group = routes.grouped(PathComponent.init(stringLiteral: group))
         try boot(with: group)

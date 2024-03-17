@@ -5,6 +5,7 @@
 //  Created by Joshua Sumskas on 8/1/2024.
 //
 
+import Shop
 import Vapor
 import Fluent
 import Stitch
@@ -21,6 +22,7 @@ extension Application {
         repositories.register(.catalogueRepository) { FluentCatalogueRepository($0) }
 
         try await configureAuth()
+        try await configureShop()
 
         try routes()
     }
