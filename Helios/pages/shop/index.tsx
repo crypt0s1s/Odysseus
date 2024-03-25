@@ -1,20 +1,27 @@
 import { NextPageWithLayout } from "../_app";
 import SideBar from "./SideBar";
+import NavBar from "./NavBar";
+import SearchPanel from "./SearchPanel";
 
 const Page: NextPageWithLayout = () => {
   var item: ShopItemModel = { name: "Lego", minPrice: 10.99, imageURL: "" };
   return (
     <main className="bg-white">
-      <div className="flex flex-row">
-        <SideBar />
-        <div className="bg-gray-200 p-6 grid flex-1 grid-cols-4 grid-rows-4 gap-4">
-          {Array.from(Array(11).keys()).map(() => {
-            return <ShopItem item={item} />;
-          })}
+      <div className="flex flex-col">
+        <NavBar />
+        <div className="flex flex-row">
+          {/* TODO fix on smaller screens SideBar shrinks and is not longer the correct width */}
+          <SideBar />{" "}
+          <div className="flex flex-col w-screen">
+            <SearchPanel />
+            <div className="bg-gray-200 p-6 grid flex-1 grid-cols-4 grid-rows-4 gap-4">
+              {Array.from(Array(11).keys()).map(() => {
+                return <ShopItem item={item} />;
+              })}
+            </div>
+          </div>
         </div>
       </div>
-      <h1>Hello World</h1>
-      <div className="bg-red-500 h-8 w-8"></div>
     </main>
   );
 };

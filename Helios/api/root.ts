@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import { types, Instance, castToSnapshot } from "mobx-state-tree";
-import { AuthStore, CatalogueStore, ProfileStore } from "./store";
+import { AuthStore, CatalogueStore, ProfileStore, ShopStore } from "./store";
 
 type RootStoreModel = Instance<typeof RootStore>;
 
@@ -8,6 +8,7 @@ const RootStore = types.model("RootStore", {
   auth: AuthStore,
   profile: ProfileStore,
   catalogue: CatalogueStore,
+  shop: ShopStore,
 });
 
 // TODO: add what I need to for env? Maybe a logger.
@@ -19,12 +20,13 @@ const createStore = (): RootStoreModel => {
   const auth = AuthStore.create();
   const profile = ProfileStore.create();
   const catalogue = CatalogueStore.create();
+  const shop = ShopStore.create();
 
   const env: RootStoreEnv = {};
 
   return RootStore.create(
-    { auth, profile, catalogue: castToSnapshot(catalogue) },
-    env,
+    { auth, profile, catalogue: castToSnapshot(catalogue), shop },
+    env
   );
 };
 

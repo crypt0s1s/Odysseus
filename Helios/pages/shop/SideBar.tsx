@@ -4,7 +4,8 @@ const SideBar = () => {
   return (
     <div
       className="top-0 left-0 h-screen w-[220px] m-0 
-    flex flex-col bg-gray-100 text-blue-800 shadow-lg px-6 py-4 gap-4"
+    flex flex-col bg-gray-100 text-blue-800 px-6 py-4 gap-4
+     border-2 border-gray-200 shadow"
     >
       <SideBarSection title={"Category 1"}>
         <ul>
@@ -35,10 +36,22 @@ const SideBar = () => {
           <TextInput placeholder={"Min"} />
           <TextInput placeholder={"Max"} />
         </div>
+        <GoButton />
       </SideBarSection>
     </div>
   );
 };
+
+function GoButton() {
+  return (
+    <button
+      type="submit"
+      className="flex h-8 w-[50px] justify-center items-center px-4 py-2 text-white bg-blue-500 border-blue-500  hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+    >
+      Go
+    </button>
+  );
+}
 
 function SideBarSection({
   title,
@@ -84,7 +97,7 @@ function TextInput({ placeholder }: { placeholder: string }) {
       </label> */}
       <input
         type="number"
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        className="h-8 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder={placeholder}
         required
       />
