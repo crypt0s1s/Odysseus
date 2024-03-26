@@ -4,7 +4,7 @@ const SideBar = () => {
   return (
     <div
       className="top-0 left-0 h-screen w-[220px] m-0 
-    flex flex-col bg-gray-100 text-blue-800 px-6 py-4 gap-4
+    flex flex-col bg-white text-blue-800 px-6 py-4 gap-4
      border-2 border-gray-200 shadow"
     >
       <SideBarSection title={"Category 1"}>

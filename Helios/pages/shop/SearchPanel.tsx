@@ -2,7 +2,7 @@ const SearchPanel = () => {
   return (
     <div
       className="flex flex-col p-4 pl-6 gap-2 h-[154px]
-       bg-gray-100 border-t-2 border-gray-200"
+       bg-white border-t-2 border-gray-200"
     >
       <div className="text-sm">
         First-level Menu / <b>Current Page</b>

@@ -25,7 +25,12 @@ const createStore = (): RootStoreModel => {
   const env: RootStoreEnv = {};
 
   return RootStore.create(
-    { auth, profile, catalogue: castToSnapshot(catalogue), shop },
+    {
+      auth,
+      profile,
+      catalogue: castToSnapshot(catalogue),
+      shop: castToSnapshot(shop),
+    },
     env
   );
 };

@@ -19,13 +19,17 @@ export const ShopStore = types
   .actions((self) => ({
     getShopItems: flow(function* getShopItems() {
       let result = yield shopApi.get("").json();
+      console.log(result);
       self.shopItems = result;
+      console.log(self.shopItems);
+      console.log(`shopItems: ${self.shopItems}`);
+      return true;
     }),
   }));
 
 export const getShop = () => {
   return useQuery({
-    queryKey: ["catalogue"],
-    queryFn: rootStore.catalogue.getCatalogue,
+    queryKey: ["shop"],
+    queryFn: rootStore.shop.getShopItems,
   });
 };

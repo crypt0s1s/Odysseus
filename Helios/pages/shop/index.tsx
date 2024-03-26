@@ -2,9 +2,12 @@ import { NextPageWithLayout } from "../_app";
 import SideBar from "./SideBar";
 import NavBar from "./NavBar";
 import SearchPanel from "./SearchPanel";
+import { StoreContext, getShop } from "@/api";
+import { observer } from "mobx-react-lite";
+import { useContext } from "react";
 
 const Page: NextPageWithLayout = () => {
-  var item: ShopItemModel = { name: "Lego", minPrice: 10.99, imageURL: "" };
+  const { isSuccess } = getShop();
   return (
     <main className="bg-white">
       <div className="flex flex-col">
@@ -14,17 +17,24 @@ const Page: NextPageWithLayout = () => {
           <SideBar />{" "}
           <div className="flex flex-col w-screen">
             <SearchPanel />
-            <div className="bg-gray-200 p-6 grid flex-1 grid-cols-4 grid-rows-4 gap-4">
-              {Array.from(Array(11).keys()).map(() => {
-                return <ShopItem item={item} />;
-              })}
-            </div>
+            <ShopItemGrid />
           </div>
         </div>
       </div>
     </main>
   );
 };
+
+const ShopItemGrid = observer(() => {
+  const { shop } = useContext(StoreContext);
+  const { isPending, isSuccess, error } = getShop();
+  console.log(error);
+  return (
+    <div className="bg-gray-100 p-6 grid flex-1 grid-cols-4 grid-rows-4 gap-4">
+      {isSuccess && shop.shopItems.map((item) => <ShopItem item={item} />)}
+    </div>
+  );
+});
 
 function ShopItem({ item }: { item: ShopItemModel }) {
   return (
@@ -42,8 +52,8 @@ function ShopItem({ item }: { item: ShopItemModel }) {
 interface ShopItemModel {
   name: string;
   minPrice: number;
-  maxPrice?: number;
-  imageURL: string;
+  maxPrice: number | null;
+  imageUrl: string;
 }
 
 export default Page;
