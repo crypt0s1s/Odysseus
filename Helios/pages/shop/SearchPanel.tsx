@@ -4,12 +4,17 @@ const SearchPanel = () => {
       className="flex flex-col p-4 pl-6 gap-2 h-[154px]
        bg-white border-t-2 border-gray-200"
     >
+      {/* Breadcrumb */}
       <div className="text-sm">
         First-level Menu / <b>Current Page</b>
       </div>
+
+      {/* Title */}
       <div className="text-lg">
         <b>Search Items</b>
       </div>
+
+      {/* Search Bar */}
       <div className="flex flex-row px-48">
         <div className="relative w-full">
           <input
