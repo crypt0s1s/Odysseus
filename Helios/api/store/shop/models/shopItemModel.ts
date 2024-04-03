@@ -4,7 +4,8 @@ export const ShopItemModel = types.model({
   id: types.identifier,
   name: types.string,
   minPrice: types.float,
-  maxPrice: types.maybeNull(types.float),
+  // TODO: Josh to fix up
+  //maxPrice: types.maybeNull(types.float),
   imageUrl: types.string,
 });
 
