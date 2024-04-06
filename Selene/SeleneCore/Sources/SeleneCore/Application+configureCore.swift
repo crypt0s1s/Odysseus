@@ -12,10 +12,10 @@ extension Application {
     public func configureCore() throws {
         setupCorsMiddleware()
  
-        if self.environment == .testing {
-            try initialiseTestDatabase()
-        } else {
-            try initialiseDatabase()
+        switch self.environment {
+            // TODO: add back in
+//        case .testing try initialiseTestDatabase()
+        default: try initialiseDatabase()
         }
     }
     

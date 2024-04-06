@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { StoreContext, Profile } from "../../api";
 import React, { useContext } from "react";
-import sunIcon from "../../helen/icons/sun.svg";
-import cartIcon from "../../helen/icons/cart.svg";
+import sunIcon from "../../helena/icons/sun.svg";
+import cartIcon from "../../helena/icons/cart.svg";
 import { useRouter } from "next/navigation";
 import { observer } from "mobx-react-lite";
 

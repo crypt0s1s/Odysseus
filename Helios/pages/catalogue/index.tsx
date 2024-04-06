@@ -1,6 +1,6 @@
 import Image from "next/image";
-import minus from "../../helen/icons/minus.svg";
-import plus from "../../helen/icons/plus.svg";
+import minus from "../../helena/icons/minus.svg";
+import plus from "../../helena/icons/plus.svg";
 import { ReactElement, useContext } from "react";
 import { CatalogueItem, StoreContext, getCatalogue } from "../../api";
 import { observer } from "mobx-react-lite";

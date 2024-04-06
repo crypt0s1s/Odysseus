@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import Providers from "./_providers";
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
-import "../helen/typography/styles.css";
+import "../helena/typography/styles.css";
 
 // TODO: change the name
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
