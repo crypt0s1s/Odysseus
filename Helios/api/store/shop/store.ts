@@ -19,9 +19,9 @@ export const ShopStore = types
   .actions((self) => ({
     getShopItems: flow(function* getShopItems() {
       let result = yield shopApi.get("").json();
-      console.log(result);
+      console.log("Test result: " + result);
       self.shopItems = result;
-      console.log(self.shopItems);
+      console.log("Test result 2: " + self.shopItems);
       console.log(`shopItems: ${self.shopItems}`);
       return true;
     }),
