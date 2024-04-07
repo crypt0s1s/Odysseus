@@ -19,7 +19,7 @@ export const ShopStore = types
   .actions((self) => ({
     getShopItems: flow(function* getShopItems() {
       let result = yield shopApi.get("").json();
-      console.log("Test result: " + result);
+      console.log("Test result 1: " + result);
       self.shopItems = result;
       console.log("Test result 2: " + self.shopItems);
       console.log(`shopItems: ${self.shopItems}`);

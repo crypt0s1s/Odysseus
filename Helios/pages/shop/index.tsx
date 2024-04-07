@@ -7,6 +7,7 @@ import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 import React from "react";
 import { useRouter } from "next/router";
+import { ShopItem } from "@/api/store/shop/models";
 
 const Page: NextPageWithLayout = () => {
   const { isSuccess } = getShop();
@@ -35,45 +36,39 @@ const ShopItemGrid = observer(() => {
   console.log(shop.shopItems);
   return (
     <div className="bg-gray-100 p-6 grid flex-1 grid-cols-4 grid-rows-4 gap-4">
-      {isSuccess && shop.shopItems.map((item) => <ShopItem item={item} />)}
+      {isSuccess && shop.shopItems.map((item) => <ShopGridItem item={item} />)}
     </div>
   );
 });
 
-function ShopItemGridTest({
-  name,
-  minPrice,
-}: {
-  name: string;
-  minPrice: number;
-}) {
-  const newItem: ShopItemModel = {
-    id: 12345,
-    name: name,
-    minPrice: minPrice,
-    maxPrice: null,
+function ShopItemGridTest() {
+  const newItem: ShopItem = {
+    id: "12345",
+    name: "A Fine Bev",
+    minPrice: 125.0,
     imageUrl:
       "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.cmsmax.com%2Feq4rxnkvcouvc1anfqqhe%2Fcutwater-4pk-white-russian.png&f=1&nofb=1&ipt=9e35ceed93b7e6bc899e4cb6f2adcf95cb18164bb08df3f37f55159d3082e10f&ipo=images",
+    imageAlt: "",
   };
 
   return (
     <div className="bg-gray-100 p-6 grid flex-1 grid-cols-4 grid-rows-4 gap-4">
-      <ShopItem item={newItem} />
-      <ShopItem item={newItem} />
-      <ShopItem item={newItem} />
-      <ShopItem item={newItem} />
-      <ShopItem item={newItem} />
-      <ShopItem item={newItem} />
-      <ShopItem item={newItem} />
-      <ShopItem item={newItem} />
+      <ShopGridItem item={newItem} />
+      <ShopGridItem item={newItem} />
+      <ShopGridItem item={newItem} />
+      <ShopGridItem item={newItem} />
+      <ShopGridItem item={newItem} />
+      <ShopGridItem item={newItem} />
+      <ShopGridItem item={newItem} />
+      <ShopGridItem item={newItem} />
     </div>
   );
 }
 
-function ShopItem({ item }: { item: ShopItemModel }) {
+function ShopGridItem({ item }: { item: ShopItem }) {
   const router = useRouter();
 
-  const handleClick = (id: number) => {
+  const handleClick = (id: string) => {
     router.push(`/shop/${id}`);
   };
 
@@ -98,16 +93,6 @@ function ShopItem({ item }: { item: ShopItemModel }) {
       </div>
     </div>
   );
-}
-
-interface ShopItemModel {
-  id: number;
-  name: string;
-  minPrice: number;
-  // TODO are the '?' correct? I didn't change the '| null' from before - thought I'd check.
-  maxPrice?: number | null;
-  imageUrl: string;
-  imageAlt?: string;
 }
 
 export default Page;
