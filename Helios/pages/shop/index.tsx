@@ -21,7 +21,7 @@ const Page: NextPageWithLayout = () => {
           <div className="flex flex-col w-screen">
             <SearchPanel />
             {/* <ShopItemGrid /> */}
-            <ShopItemGridTest name="CoolBook!" minPrice={20} />
+            <ShopItemGridTest />
           </div>
         </div>
       </div>
