@@ -10,6 +10,7 @@ import Vapor
 extension Application {
     public func configureShop() async throws {
         migrations.add(ShopItem.Migration())
+        migrations.add(ShopItem.AddBasicItemDetailsDescription())
         repositories.register(.shopRepository) { FluentShopRepository($0) }
 
         try routes()
