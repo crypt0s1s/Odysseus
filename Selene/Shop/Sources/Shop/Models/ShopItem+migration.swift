@@ -26,4 +26,19 @@ extension ShopItem {
             try await database.schema("shop").delete()
         }
     }
+    
+    struct AddBasicItemDetailsDescription: AsyncMigration {
+        func prepare(on database: Database) async throws {
+            try await database.schema("shop")
+                .field("description", .string, .required)
+                .update()
+        }
+        
+        func revert(on database: Database) async throws {
+            try await database.schema("shop")
+                .deleteField("description")
+                .update()
+        }
+        
+    }
 }

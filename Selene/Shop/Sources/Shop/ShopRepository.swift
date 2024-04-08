@@ -10,6 +10,10 @@ import Fluent
 import SeleneCore
 
 struct FluentShopRepository: ShopFetching {
+    func getItem(_ id: UUID) async throws -> ShopItem? {
+        try await ShopItem.query(on: req.db).filter(\.$id == id).first()
+    }
+    
     var req: Request
     
     init(_ req: Vapor.Request) {

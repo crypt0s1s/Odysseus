@@ -18,11 +18,35 @@ struct ShopController: AuthenticatedController {
     
     func boot(with builder: any RoutesBuilder) throws {
         builder.get(use: getShop)
+        builder.get(":id", use: getShopItemDetails)
         builder.post(use: createItems)
     }
     
-    func getShop(req: Request) async throws -> [ShopItem] {
-        try await req.repositories.shopRepository.get()
+    func getShop(req: Request) async throws -> [ShopItemDto] {
+        try await req
+            .repositories
+            .shopRepository
+            .get()
+            .map {
+                try $0.mapToShopItemDto()
+            }
+    }
+    
+    func getShopItemDetails(req: Request) async throws -> ShopItemDetailsDto {
+        guard let id = req.parameters.get("id") else { throw Abort(.badRequest) }
+        guard let uuid = UUID(uuidString: id) else { throw Abort(.badRequest) }
+        
+        let item = try await req
+            .repositories
+            .shopRepository
+            .getItem(uuid)
+            .map {
+                try $0.mapToShopItemDetailsDto()
+            }
+        
+        guard let item else { throw Abort(.notFound) }
+        
+        return item
     }
     
     

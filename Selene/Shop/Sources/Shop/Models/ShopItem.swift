@@ -8,7 +8,7 @@
 import Fluent
 import Vapor
 
-final class ShopItem: Model, Content {
+final class ShopItem: Content, Model {
     static let schema = "shop"
 
     @ID(key: .id)
@@ -25,6 +25,9 @@ final class ShopItem: Model, Content {
 
     @Field(key: "image_url")
     var imageUrl: String
+    
+    @Field(key: "description")
+    var description: String
 
     // When this ShopItem was created.
     @Timestamp(key: "created_at", on: .create)
@@ -36,11 +39,44 @@ final class ShopItem: Model, Content {
 
     init() { }
 
-    init(id: UUID? = nil, name: String, minPrice: Double, maxPrice: Double?, imageUrl: String) {
+    init(id: UUID? = nil, name: String, minPrice: Double, maxPrice: Double?, imageUrl: String, description: String) {
         self.id = id
         self.name = name
         self.minPrice = minPrice
         self.maxPrice = maxPrice
         self.imageUrl = imageUrl
+        self.description = description
     }
+}
+
+// TODO: split up into different files
+extension ShopItem {
+    func mapToShopItemDto() throws -> ShopItemDto {
+        guard let id else { throw MappingError.id }
+        return ShopItemDto(
+            id: id,
+            name: name,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+            imageUrl: imageUrl
+        )
+    }
+}
+
+extension ShopItem {
+    func mapToShopItemDetailsDto() throws -> ShopItemDetailsDto {
+        guard let id else { throw MappingError.id }
+        return ShopItemDetailsDto(
+            id: id,
+            name: name,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+            imageUrl: imageUrl,
+            description: description
+        )
+    }
+}
+
+enum MappingError: Error {
+    case id
 }
