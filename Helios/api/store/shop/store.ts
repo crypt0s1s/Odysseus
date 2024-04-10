@@ -3,6 +3,7 @@ import { authHeaderInterceptor, createHeliosApi } from "../../core";
 import { ShopItemModel } from "./models";
 import { useQuery } from "@tanstack/react-query";
 import { rootStore } from "@/api";
+import { ShopItemDetailsModel } from "./models/shopItemDetailsModel";
 // import { ClientTokenResponse } from "./models";
 
 const shopUrl = "shop";
@@ -15,6 +16,7 @@ export const authenticatedShopApi = createHeliosApi(shopUrl, [
 export const ShopStore = types
   .model("ShopStore", {
     shopItems: types.array(ShopItemModel),
+    shopItemDetails: types.array(ShopItemDetailsModel),
   })
   .actions((self) => ({
     getShopItems: flow(function* getShopItems() {
@@ -25,11 +27,23 @@ export const ShopStore = types
       console.log(`shopItems: ${self.shopItems}`);
       return true;
     }),
+    getShopItemDetails: flow(function* getShopItemDetails() {
+      let result = yield shopApi.get("").json();
+      self.shopItemDetails = result;
+      return true;
+    }),
   }));
 
 export const getShop = () => {
   return useQuery({
     queryKey: ["shop"],
     queryFn: rootStore.shop.getShopItems,
+  });
+};
+
+export const getShopDetails = () => {
+  return useQuery({
+    queryKey: ["shopDetails"],
+    queryFn: rootStore.shop.getShopItemDetails,
   });
 };

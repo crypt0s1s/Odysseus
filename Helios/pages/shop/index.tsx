@@ -8,6 +8,7 @@ import { useContext } from "react";
 import React from "react";
 import { useRouter } from "next/router";
 import { ShopItem } from "@/api/store/shop/models";
+import { ShopItemDetails } from "@/api/store/shop/models/shopItemDetailsModel";
 
 const Page: NextPageWithLayout = () => {
   const { isSuccess } = getShop();
@@ -20,8 +21,8 @@ const Page: NextPageWithLayout = () => {
           <SideBar />{" "}
           <div className="flex flex-col w-screen">
             <SearchPanel />
-            {/* <ShopItemGrid /> */}
-            <ShopItemGridTest />
+            <ShopItemGrid />
+            {/* <ShopItemGridTest /> */}
           </div>
         </div>
       </div>
@@ -76,7 +77,7 @@ function ShopGridItem({ item }: { item: ShopItem }) {
     <div>
       {/* <div className="bg-blue-500 aspect-video" /> */}
       <img
-        className="aspect-video object-cover cursor-pointer"
+        className="aspect-video object-contain cursor-pointer bg-white p-3"
         src={item.imageUrl}
         alt={item.imageAlt}
         onClick={() => handleClick(item.id)}
