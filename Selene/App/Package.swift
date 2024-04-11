@@ -12,6 +12,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent.git", from: "4.0.0"),
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.8.0"),
         .package(url: "https://github.com/crypt0s1s/stitch_linux", .upToNextMajor(from: "1.0.2")),
+        .package(path: "../Shop"),
         .package(path: "../SeleneApi"),
         .package(path: "../SeleneAuth"),
         .package(path: "../SeleneCore"),
@@ -24,6 +25,7 @@ let package = Package(
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "Stitch", package: "stitch_linux"),
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
+                "Shop",
                 "SeleneApi",
                 "SeleneAuth",
                 "SeleneCore",
@@ -38,6 +40,7 @@ let package = Package(
 
             // Workaround for https://github.com/apple/swift-package-manager/issues/6940
             .product(name: "Vapor", package: "vapor"),
+            "Shop",
             "SeleneApi",
             "SeleneAuth",
             "SeleneCore",
