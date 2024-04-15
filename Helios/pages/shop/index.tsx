@@ -22,7 +22,6 @@ const Page: NextPageWithLayout = () => {
           <div className="flex flex-col w-screen">
             <SearchPanel />
             <ShopItemGrid />
-            {/* <ShopItemGridTest /> */}
           </div>
         </div>
       </div>
@@ -33,8 +32,6 @@ const Page: NextPageWithLayout = () => {
 const ShopItemGrid = observer(() => {
   const { shop } = useContext(StoreContext);
   const { isPending, isSuccess, error } = getShop();
-  console.log("Shop Item Grid error: " + error);
-  console.log(shop.shopItems);
   return (
     <div className="bg-gray-100 p-6 grid flex-1 grid-cols-4 grid-rows-4 gap-4">
       {isSuccess && shop.shopItems.map((item) => <ShopGridItem item={item} />)}
@@ -75,7 +72,6 @@ function ShopGridItem({ item }: { item: ShopItem }) {
 
   return (
     <div>
-      {/* <div className="bg-blue-500 aspect-video" /> */}
       <img
         className="aspect-video object-contain cursor-pointer bg-white p-3"
         src={item.imageUrl}
@@ -89,7 +85,6 @@ function ShopGridItem({ item }: { item: ShopItem }) {
         >
           {item.name}
         </h5>
-
         <p className="text-blue-500">$ {item.minPrice}</p>
       </div>
     </div>

@@ -4,7 +4,6 @@ import { ShopItemModel } from "./models";
 import { useQuery } from "@tanstack/react-query";
 import { rootStore } from "@/api";
 import { ShopItemDetailsModel } from "./models/shopItemDetailsModel";
-// import { ClientTokenResponse } from "./models";
 
 const shopUrl = "shop";
 export const shopApi = createHeliosApi(shopUrl);
@@ -21,10 +20,7 @@ export const ShopStore = types
   .actions((self) => ({
     getShopItems: flow(function* getShopItems() {
       let result = yield shopApi.get("").json();
-      console.log("Test result 1: " + result);
       self.shopItems = result;
-      console.log("Test result 2: " + self.shopItems);
-      console.log(`shopItems: ${self.shopItems}`);
       return true;
     }),
     getShopItemDetails: flow(function* getShopItemDetails() {
