@@ -32,6 +32,11 @@ export const ShopStore = types
       self.shopItemDetails = result;
       return true;
     }),
+
+    // Method to get ShopItemDetailsModel by ID
+    getShopItemDetailsById: function (id: string) {
+      return self.shopItemDetails.find((item) => item.id === id);
+    },
   }));
 
 export const getShop = () => {
@@ -41,9 +46,10 @@ export const getShop = () => {
   });
 };
 
-export const getShopDetails = () => {
+// how does the framework set up the query?
+export const getShopDetails = (id: string) => {
   return useQuery({
-    queryKey: ["shopDetails"],
+    queryKey: ["shop", id],
     queryFn: rootStore.shop.getShopItemDetails,
   });
 };
