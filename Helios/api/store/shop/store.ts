@@ -15,7 +15,7 @@ export const authenticatedShopApi = createHeliosApi(shopUrl, [
 export const ShopStore = types
   .model("ShopStore", {
     shopItems: types.array(ShopItemModel),
-    shopItemDetails: types.array(ShopItemDetailsModel),
+    shopItemDetails: types.maybe(ShopItemDetailsModel),
   })
   .actions((self) => ({
     getShopItems: flow(function* getShopItems() {
@@ -23,16 +23,12 @@ export const ShopStore = types
       self.shopItems = result;
       return true;
     }),
-    getShopItemDetails: flow(function* getShopItemDetails() {
-      let result = yield shopApi.get("").json();
+    getShopItemDetails: flow(function* getShopItemDetails(id) {
+      let itemId = id.queryKey[1];
+      let result = yield shopApi.get(itemId).json();
       self.shopItemDetails = result;
       return true;
     }),
-
-    // Method to get ShopItemDetailsModel by ID
-    getShopItemDetailsById: function (id: string) {
-      return self.shopItemDetails.find((item) => item.id === id);
-    },
   }));
 
 export const getShop = () => {
