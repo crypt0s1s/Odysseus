@@ -18,22 +18,9 @@ const Page: NextPageWithLayout = () => {
 
   const { isPending, isSuccess, error } = getShopDetails(idString);
 
-  console.log("Shop Item error: " + error);
-  console.log("Shop Item Details: " + shop.shopItemDetails);
+  // console.log("Shop Item error: " + error);
 
   var detailedShopItem = shop.shopItemDetails;
-
-  // const detailedShopItem: ShopItemDetails = {
-  //   id: "12345",
-  //   name: "Orange Juice",
-  //   description:
-  //     "A fine tasting bev which deserves the utmost respect. It is not merely a drink, but a tale woven with every drop, an elixir of elegance and sophistication that beckons the soul to indulge in its liquid poetry." +
-  //     " In its depths, one finds not just refreshment, but a moment of serenity, a respite from the chaos of the world, encapsulated in a single glass of liquid bliss.",
-  //   minPrice: 3.01,
-  //   imageUrl:
-  //     "https://cdn0.woolworths.media/content/wowproductimages/large/315649.jpg",
-  //   imageAlt: "",
-  // };
 
   if (detailedShopItem == undefined || detailedShopItem == null) {
     return (
