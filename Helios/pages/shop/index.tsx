@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from "../_app";
-import SideBar from "./SideBar";
+import FilterSidebar from "./FilterSidebar";
 import NavBar from "./NavBar";
 import SearchPanel from "./SearchPanel";
 import { StoreContext, getShop } from "@/api";
@@ -18,7 +18,7 @@ const Page: NextPageWithLayout = () => {
         <NavBar />
         <div className="flex flex-row">
           {/* TODO fix on smaller screens SideBar shrinks and is not longer the correct width */}
-          <SideBar />{" "}
+          <FilterSidebar />{" "}
           <div className="flex flex-col w-screen">
             <SearchPanel />
             <ShopItemGrid />
