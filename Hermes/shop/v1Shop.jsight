@@ -1,0 +1,40 @@
+JSIGHT 0.3
+
+INFO
+  Title "V1 Shops Api"
+  Version 1.0
+
+#-------------------- /shop -------------------#
+
+GET /shop
+  200
+  [{
+    "id"      : "4305100b-c7e7-4598-946e-1a0f1a61289f",         // { type: "uuid" }
+    "name"    : "Coffee grounds 1kg",
+    "minPrice": 125.25,                                         // { precision: 2 }
+    "maxPrice": 352.52,                                         // { precision: 2, optional: true }
+    "imageUrl": "https://www.something.com.au/images/12324.png" // { type: "uri" }
+  }]
+  PASTE @errorResponses
+
+#-------------------- /shop/{id} -------------------#
+
+GET /shop/{id}
+  200
+  {
+    "id"      : "4305100b-c7e7-4598-946e-1a0f1a61289f",         // { type: "uuid" }
+    "name"    : "Coffee grounds 1kg",
+    "minPrice": 125.25,                                         // { precision: 2 }
+    "maxPrice": 352.52,                                         // { precision: 2, optional: true }
+    "description": "Roasted in store these beans...",
+    "imageUrl": "https://www.something.com.au/images/12324.png" // { type: "uri" }
+  }
+  PASTE @errorResponses
+
+MACRO @errorResponses
+    400 any
+    401 any
+    404 any
+    405 any
+    500 any
+
