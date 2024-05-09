@@ -1,6 +1,6 @@
 import { flow, types } from "mobx-state-tree";
 import { authHeaderInterceptor, createHeliosApi } from "../../core";
-import { ShopItemModel } from "./models";
+import { ShopItemModel, ShoppingCartModel } from "./models";
 import { useQuery } from "@tanstack/react-query";
 import { rootStore } from "@/api";
 import { ShopItemDetailsModel } from "./models/shopItemDetailsModel";
@@ -16,6 +16,7 @@ export const ShopStore = types
   .model("ShopStore", {
     shopItems: types.array(ShopItemModel),
     shopItemDetails: types.maybe(ShopItemDetailsModel),
+    shoppingCart: types.optional(types.late(() => ShoppingCartModel), {}),
   })
   .actions((self) => ({
     getShopItems: flow(function* getShopItems() {

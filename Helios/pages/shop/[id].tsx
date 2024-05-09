@@ -17,6 +17,40 @@ const Page: NextPageWithLayout = () => {
   const { isPending, isSuccess, error } = getShopDetails(idString);
   // console.log("Shop Item error: " + error);
   var detailedShopItem = shop.shopItemDetails;
+  // State for isCartOpen
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  function InfoColumn({ item }: { item: ShopItemDetails }) {
+    var steps: string[] = [];
+
+    return (
+      <div className="flex flex-col pt-6">
+        <h1>{item.name}</h1>
+        <p className="text-2xl">$ {item.minPrice}</p>
+        <p className=""> {item.description}</p>
+        <div className="flex flex-row py-6 y gap-x-4 h-[98px]">
+          <QuantitySelector />
+          <ButtonAddToCart />
+        </div>
+      </div>
+    );
+  }
+
+  function ButtonAddToCart() {
+    const handleClick = () => {
+      setIsCartOpen(false); // Update isCartOpen state
+      console.log("Button clicked!" + isCartOpen);
+    };
+
+    return (
+      <button
+        className="bg-white hover:bg-amber-100 border border-black  text-black px-10 rounded-lg"
+        onClick={handleClick}
+      >
+        Add To Cart
+      </button>
+    );
+  }
 
   if (detailedShopItem == undefined || detailedShopItem == null) {
     return (
@@ -34,42 +68,11 @@ const Page: NextPageWithLayout = () => {
           ></img>
           <InfoColumn item={detailedShopItem} />
         </div>
-        <ShoppingCartSidebar />
+        {isCartOpen && <ShoppingCartSidebar />} {/* Conditionally render */}
       </div>
     );
   }
 };
-
-function InfoColumn({ item }: { item: ShopItemDetails }) {
-  var steps: string[] = [];
-
-  return (
-    <div className="flex flex-col pt-6">
-      <h1>{item.name}</h1>
-      <p className="text-2xl">$ {item.minPrice}</p>
-      <p className=""> {item.description}</p>
-      <div className="flex flex-row py-6 y gap-x-4 h-[98px]">
-        <QuantitySelector />
-        <ButtonAddToCart />
-      </div>
-    </div>
-  );
-}
-
-function ButtonAddToCart() {
-  const handleClick = () => {
-    console.log("Button clicked!");
-  };
-
-  return (
-    <button
-      className="bg-white hover:bg-amber-100 border border-black  text-black px-10 rounded-lg"
-      onClick={handleClick}
-    >
-      Add To Cart
-    </button>
-  );
-}
 
 const QuantitySelector = () => {
   const [quantity, setQuantity] = useState(0);
