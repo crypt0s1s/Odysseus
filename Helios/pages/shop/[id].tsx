@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useContext } from "react";
 import React, { useState } from "react";
 import ShoppingCartSidebar from "./CartSidebar";
+import { ShopItemModel } from "@/api/store/shop/models";
 
 const Page: NextPageWithLayout = () => {
   const router = useRouter();
@@ -19,12 +20,115 @@ const Page: NextPageWithLayout = () => {
   var detailedShopItem = shop.shopItemDetails;
   // State for isCartOpen
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [quantity, setQuantity] = useState(0);
+
+  const QuantitySelector = () => {
+    const handleIncrement = () => {
+      setQuantity(quantity + 1);
+      // onchange(quantity + 1);
+    };
+
+    const handleDecrement = () => {
+      if (quantity > 1) {
+        setQuantity(quantity - 1);
+        // onChange(quantity - 1);
+      }
+    };
+
+    const handleQuantityChange = (event: { target: { value: string } }) => {
+      const newQuantity = parseInt(event.target.value);
+
+      //This check is better than checking typeof newQuantity === "number", as it takes into account empty input field.
+      if (!isNaN(newQuantity)) {
+        setQuantity(newQuantity);
+        // onChange(newQuantity);
+      } else {
+        // If input becomes empty, default back to 1
+        setQuantity(1);
+        // onChange(1);
+      }
+    };
+
+    const QuantitySelector = () => {
+      const handleIncrement = () => {
+        setQuantity(quantity + 1);
+        // onchange(quantity + 1);
+      };
+
+      const handleDecrement = () => {
+        if (quantity > 1) {
+          setQuantity(quantity - 1);
+          // onChange(quantity - 1);
+        }
+      };
+
+      const handleQuantityChange = (event: { target: { value: string } }) => {
+        const newQuantity = parseInt(event.target.value);
+
+        //This check is better than checking typeof newQuantity === "number", as it takes into account empty input field.
+        if (!isNaN(newQuantity)) {
+          setQuantity(newQuantity);
+          // onChange(newQuantity);
+        } else {
+          // If input becomes empty, default back to 1
+          setQuantity(1);
+          // onChange(1);
+        }
+      };
+
+      return (
+        <div className="flex items-center border rounded-lg border-black w-28">
+          <button
+            className="bg-white text-black hover:bg-amber-100 h-full w-16 rounded-l-lg flex items-center justify-center focus:outline-none"
+            onClick={handleDecrement}
+          >
+            -
+          </button>
+          <input
+            type="numeric"
+            className="flex w-full text-center appearance-none focus:outline-none border-none"
+            value={quantity}
+            onChange={handleQuantityChange}
+          />
+          <button
+            className="bg-white text-black hover:bg-amber-100 h-full w-16 rounded-r-lg flex items-center justify-center focus:outline-none"
+            onClick={handleIncrement}
+          >
+            +
+          </button>
+        </div>
+      );
+    };
+
+    return (
+      <div className="flex items-center border rounded-lg border-black w-28">
+        <button
+          className="bg-white text-black hover:bg-amber-100 h-full w-16 rounded-l-lg flex items-center justify-center focus:outline-none"
+          onClick={handleDecrement}
+        >
+          -
+        </button>
+        <input
+          type="numeric"
+          className="flex w-full text-center appearance-none focus:outline-none border-none"
+          value={quantity}
+          onChange={handleQuantityChange}
+        />
+        <button
+          className="bg-white text-black hover:bg-amber-100 h-full w-16 rounded-r-lg flex items-center justify-center focus:outline-none"
+          onClick={handleIncrement}
+        >
+          +
+        </button>
+      </div>
+    );
+  };
 
   function InfoColumn({ item }: { item: ShopItemDetails }) {
     var steps: string[] = [];
 
     return (
-      <div className="flex flex-col pt-6">
+      <div className="flex flex-col pt-6 pr-10">
         <h1>{item.name}</h1>
         <p className="text-2xl">$ {item.minPrice}</p>
         <p className=""> {item.description}</p>
@@ -38,8 +142,21 @@ const Page: NextPageWithLayout = () => {
 
   function ButtonAddToCart() {
     const handleClick = () => {
-      setIsCartOpen(false); // Update isCartOpen state
-      console.log("Button clicked!" + isCartOpen);
+      // shop.getShopItems();
+      // let item = shop.getShopItemFromId(idString);
+      // console.log(idString);
+      // console.log(idString);
+      // console.log(item);
+
+      if (detailedShopItem) {
+        shop.shoppingCart.addCartItem(detailedShopItem, quantity);
+
+        console.log("Button clicked!" + isCartOpen);
+      } else {
+        console.log("Item not found!");
+      }
+
+      setIsCartOpen(true); // Update isCartOpen state
     };
 
     return (
@@ -74,56 +191,56 @@ const Page: NextPageWithLayout = () => {
   }
 };
 
-const QuantitySelector = () => {
-  const [quantity, setQuantity] = useState(0);
+// const QuantitySelector = () => {
+//   const [quantity, setQuantity] = useState(0);
 
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
-    // onchange(quantity + 1);
-  };
+//   const handleIncrement = () => {
+//     setQuantity(quantity + 1);
+//     // onchange(quantity + 1);
+//   };
 
-  const handleDecrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-      // onChange(quantity - 1);
-    }
-  };
+//   const handleDecrement = () => {
+//     if (quantity > 1) {
+//       setQuantity(quantity - 1);
+//       // onChange(quantity - 1);
+//     }
+//   };
 
-  const handleQuantityChange = (event: { target: { value: string } }) => {
-    const newQuantity = parseInt(event.target.value);
+//   const handleQuantityChange = (event: { target: { value: string } }) => {
+//     const newQuantity = parseInt(event.target.value);
 
-    //This check is better than checking typeof newQuantity === "number", as it takes into account empty input field.
-    if (!isNaN(newQuantity)) {
-      setQuantity(newQuantity);
-      // onChange(newQuantity);
-    } else {
-      // If input becomes empty, default back to 1
-      setQuantity(1);
-      // onChange(1);
-    }
-  };
+//     //This check is better than checking typeof newQuantity === "number", as it takes into account empty input field.
+//     if (!isNaN(newQuantity)) {
+//       setQuantity(newQuantity);
+//       // onChange(newQuantity);
+//     } else {
+//       // If input becomes empty, default back to 1
+//       setQuantity(1);
+//       // onChange(1);
+//     }
+//   };
 
-  return (
-    <div className="flex items-center border rounded-lg border-black w-28">
-      <button
-        className="bg-white text-black hover:bg-amber-100 h-full w-16 rounded-l-lg flex items-center justify-center focus:outline-none"
-        onClick={handleDecrement}
-      >
-        -
-      </button>
-      <input
-        type="numeric"
-        className="flex w-full text-center appearance-none focus:outline-none border-none"
-        value={quantity}
-        onChange={handleQuantityChange}
-      />
-      <button
-        className="bg-white text-black hover:bg-amber-100 h-full w-16 rounded-r-lg flex items-center justify-center focus:outline-none"
-        onClick={handleIncrement}
-      >
-        +
-      </button>
-    </div>
-  );
-};
+//   return (
+//     <div className="flex items-center border rounded-lg border-black w-28">
+//       <button
+//         className="bg-white text-black hover:bg-amber-100 h-full w-16 rounded-l-lg flex items-center justify-center focus:outline-none"
+//         onClick={handleDecrement}
+//       >
+//         -
+//       </button>
+//       <input
+//         type="numeric"
+//         className="flex w-full text-center appearance-none focus:outline-none border-none"
+//         value={quantity}
+//         onChange={handleQuantityChange}
+//       />
+//       <button
+//         className="bg-white text-black hover:bg-amber-100 h-full w-16 rounded-r-lg flex items-center justify-center focus:outline-none"
+//         onClick={handleIncrement}
+//       >
+//         +
+//       </button>
+//     </div>
+//   );
+// };
 export default Page;

@@ -1,3 +1,4 @@
+import { StoreContext } from "@/api";
 import {
   ShopItem,
   ShoppingCart,
@@ -7,27 +8,30 @@ import {
   CartItemQuantity,
   CartItemQuantityModel,
 } from "@/api/store/shop/models/cartItemQuantityModel";
+import { ShopItemDetails } from "@/api/store/shop/models/shopItemDetailsModel";
 import { types } from "mobx-state-tree";
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
 
 // Cart sidebar should float on top of other screen elements.
 const CartSidebar = () => {
-  const shopItemTest: ShopItem = {
+  const shopItemTest: ShopItemDetails = {
     id: "12345",
     name: "Orange Juice",
     minPrice: 3.01,
     imageUrl:
       "https://cdn0.woolworths.media/content/wowproductimages/large/315649.jpg",
     imageAlt: "",
+    description: "Orange time.",
   };
 
-  const shopItemTest2: ShopItem = {
+  const shopItemTest2: ShopItemDetails = {
     id: "54321",
     name: "Drink Bottle",
     minPrice: 15.99,
     imageUrl:
       "https://www.wiltshire.com.au/cdn/shop/products/48183WILTSHIRESSBOTTLETEAL900MLOP1web.jpg?v=1644203524",
     imageAlt: "",
+    description: "Drink time.",
   };
 
   const cartTest = ShoppingCartModel.create();
@@ -61,12 +65,15 @@ function HeadingSection() {
 }
 
 function ItemSection({ cart }: { cart: ShoppingCart }) {
+  const { shop } = useContext(StoreContext);
+
   return (
     <div className="flex flex-col py-4 gap-4">
-      {/* {cartTest.cartItemList.map((item) => <ItemSectionComponent cartItem={cartItemTest1}/>)} */}
-      <ItemSectionComponent cartItem={cart.cartItemList[0]} />
-      <ItemSectionComponent cartItem={cart.cartItemList[1]} />
-      <ItemSectionComponent cartItem={cart.cartItemList[0]} />
+      {shop.shoppingCart.cartItemList.map((item) => (
+        <ItemSectionComponent cartItem={item} />
+      ))}
+
+      {/* <ItemSectionComponent cartItem={shop.shoppingCart.cartItemList[0]} /> */}
     </div>
   );
 }

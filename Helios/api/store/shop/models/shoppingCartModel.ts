@@ -1,6 +1,7 @@
 import { types, Instance } from "mobx-state-tree";
 import { CartItemQuantityModel } from "./cartItemQuantityModel";
 import { ShopItemModel } from "./shopItemModel";
+import { ShopItemDetailsModel } from "./shopItemDetailsModel";
 
 export const ShoppingCartModel = types
   .model({
@@ -26,7 +27,10 @@ export const ShoppingCartModel = types
     },
   }))
   .actions((self) => ({
-    addCartItem(shopItem: Instance<typeof ShopItemModel>, quantity: number) {
+    addCartItem(
+      shopItem: Instance<typeof ShopItemDetailsModel>,
+      quantity: number
+    ) {
       const cartItem = CartItemQuantityModel.create({
         item: shopItem,
         quantity: quantity,

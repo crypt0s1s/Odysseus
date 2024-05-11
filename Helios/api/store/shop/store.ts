@@ -16,7 +16,10 @@ export const ShopStore = types
   .model("ShopStore", {
     shopItems: types.array(ShopItemModel),
     shopItemDetails: types.maybe(ShopItemDetailsModel),
-    shoppingCart: types.optional(types.late(() => ShoppingCartModel), {}),
+    shoppingCart: types.optional(
+      types.late(() => ShoppingCartModel),
+      {}
+    ),
   })
   .actions((self) => ({
     getShopItems: flow(function* getShopItems() {
@@ -30,6 +33,9 @@ export const ShopStore = types
       self.shopItemDetails = result;
       return true;
     }),
+    getShopItemFromId(id: String) {
+      return self.shopItems.find((item) => item.id === id);
+    },
   }));
 
 export const getShop = () => {
