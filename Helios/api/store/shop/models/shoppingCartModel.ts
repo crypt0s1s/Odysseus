@@ -13,7 +13,6 @@ export const ShoppingCartModel = types
     calculateTotalCost() {
       let totalCost = 0;
       self.cartItemList.forEach((item) => {
-        //TODO determine if minPrice is correct here.
         totalCost += item.item.minPrice * item.quantity;
       });
       return totalCost;
@@ -28,11 +27,12 @@ export const ShoppingCartModel = types
   }))
   .actions((self) => ({
     addCartItem(
-      shopItem: Instance<typeof ShopItemDetailsModel>,
+      shopItemDetails: Instance<typeof ShopItemDetailsModel>,
       quantity: number
     ) {
+      0;
       const cartItem = CartItemQuantityModel.create({
-        item: shopItem,
+        item: shopItemDetails,
         quantity: quantity,
       });
 

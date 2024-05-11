@@ -6,6 +6,7 @@ import { useContext } from "react";
 import React, { useState } from "react";
 import ShoppingCartSidebar from "./CartSidebar";
 import { ShopItemModel } from "@/api/store/shop/models";
+import allItems from "./allItems";
 
 const Page: NextPageWithLayout = () => {
   const router = useRouter();
@@ -140,6 +141,15 @@ const Page: NextPageWithLayout = () => {
     );
   }
 
+  // Function to find an item by ID
+  function findItemById(itemId: String) {
+    // Search for the item in the allItems array
+    const foundItem = allItems.find((item) => item.id === itemId);
+
+    // Return the found item, or null if not found
+    return foundItem || null;
+  }
+
   function ButtonAddToCart() {
     const handleClick = () => {
       // shop.getShopItems();
@@ -148,8 +158,21 @@ const Page: NextPageWithLayout = () => {
       // console.log(idString);
       // console.log(item);
 
-      if (detailedShopItem) {
-        shop.shoppingCart.addCartItem(detailedShopItem, quantity);
+      if (quantity === 0) return;
+
+      let itemToAdd = findItemById(idString);
+
+      if (itemToAdd) {
+        var itemInList =
+          shop.shoppingCart.cartItemList.find(
+            (x) => x.item.id === itemToAdd.id
+          ) ?? null;
+
+        if (itemInList != null) {
+          itemInList.quantity += quantity;
+        } else {
+          shop.shoppingCart.addCartItem(itemToAdd, quantity);
+        }
 
         console.log("Button clicked!" + isCartOpen);
       } else {
