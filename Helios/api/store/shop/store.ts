@@ -1,10 +1,9 @@
 import { flow, types } from "mobx-state-tree";
 import { authHeaderInterceptor, createHeliosApi } from "../../core";
-import { ShopItemModel } from "./models";
+import { ShopItemModel, ShoppingCartModel } from "./models";
 import { useQuery } from "@tanstack/react-query";
 import { rootStore } from "@/api";
 import { ShopItemDetailsModel } from "./models/shopItemDetailsModel";
-// import { ClientTokenResponse } from "./models";
 
 const shopUrl = "shop";
 export const shopApi = createHeliosApi(shopUrl);
@@ -16,22 +15,27 @@ export const authenticatedShopApi = createHeliosApi(shopUrl, [
 export const ShopStore = types
   .model("ShopStore", {
     shopItems: types.array(ShopItemModel),
-    shopItemDetails: types.array(ShopItemDetailsModel),
+    shopItemDetails: types.maybe(ShopItemDetailsModel),
+    shoppingCart: types.optional(
+      types.late(() => ShoppingCartModel),
+      {}
+    ),
   })
   .actions((self) => ({
     getShopItems: flow(function* getShopItems() {
       let result = yield shopApi.get("").json();
-      console.log("Test result 1: " + result);
       self.shopItems = result;
-      console.log("Test result 2: " + self.shopItems);
-      console.log(`shopItems: ${self.shopItems}`);
       return true;
     }),
-    getShopItemDetails: flow(function* getShopItemDetails() {
-      let result = yield shopApi.get("").json();
+    getShopItemDetails: flow(function* getShopItemDetails(id) {
+      let itemId = id.queryKey[1];
+      let result = yield shopApi.get(itemId).json();
       self.shopItemDetails = result;
       return true;
     }),
+    getShopItemFromId(id: String) {
+      return self.shopItems.find((item) => item.id === id);
+    },
   }));
 
 export const getShop = () => {
@@ -41,9 +45,10 @@ export const getShop = () => {
   });
 };
 
-export const getShopDetails = () => {
+// how does the framework set up the query?
+export const getShopDetails = (id: string) => {
   return useQuery({
-    queryKey: ["shopDetails"],
+    queryKey: ["shop", id],
     queryFn: rootStore.shop.getShopItemDetails,
   });
 };

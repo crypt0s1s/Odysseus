@@ -20,17 +20,17 @@ extension Application {
     }
     
     private func initialiseTestDatabase() throws {
-        let hostname = Environment.processKey("TEST_DATABASE_HOSTNAME")
-        let port = Int(Environment.processKey("TEST_DATABASE_PORT") ?? "")
-        let username = Environment.processKey("TEST_DATABASE_USERNAME")
-        let databaseName = Environment.processKey("TEST_DATABASE_NAME")
+        let hostname = "localhost" /*Environment.processKey("TEST_DATABASE_HOSTNAME")*/
+        let port = 5432 /*Int(Environment.processKey("TEST_DATABASE_PORT") ?? "")*/
+        let username = "Mitch" /*Environment.processKey("TEST_DATABASE_USERNAME")*/
+        let databaseName = "Coeus" /*Environment.processKey("TEST_DATABASE_NAME")*/
         databases.use(
             .postgres(configuration:
                 .init(
-                    hostname: hostname!,
-                    port: port!,
-                    username: username!,
-                    database: databaseName!,
+                    hostname: hostname,
+                    port: port,
+                    username: username,
+                    database: databaseName,
 //                  TODO: look into other options for this
                     tls: .prefer(try .init(configuration: .clientDefault))
                 )
@@ -41,18 +41,18 @@ extension Application {
     
     private func initialiseDatabase() throws {
         // TODO: Do this in a better way
-        let hostname = Environment.processKey("DATABASE_HOSTNAME")
-        let port = Int(Environment.processKey("DATABASE_PORT") ?? "")
-        let username = Environment.processKey("DATABASE_USERNAME")
-        let databaseName = Environment.processKey("DATABASE_NAME")
+        let hostname = "localhost" /*Environment.processKey("DATABASE_HOSTNAME")*/
+        let port = 5432 /*Int(Environment.processKey("DATABASE_PORT") ?? "")*/
+        let username = "Mitch"/*Environment.processKey("DATABASE_USERNAME")*/
+        let databaseName = "Coeus"/*Environment.processKey("DATABASE_NAME")*/
         // TODO: add password
         databases.use(
             .postgres(configuration:
                 .init(
-                    hostname: hostname!,
-                    port: port!,
-                    username: username!,
-                    database: databaseName!,
+                    hostname: hostname,
+                    port: port,
+                    username: username,
+                    database: databaseName,
 //                  TODO: look into other options for this
                     tls: .prefer(try .init(configuration: .clientDefault))
                 )

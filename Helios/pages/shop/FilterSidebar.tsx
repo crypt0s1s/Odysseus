@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-const SideBar = () => {
+const FilterSidebar = () => {
   return (
     <div
       className="top-0 left-0 h-screen w-[220px] m-0 
@@ -105,4 +105,4 @@ function TextInput({
   );
 }
 
-export default SideBar;
+export default FilterSidebar;
