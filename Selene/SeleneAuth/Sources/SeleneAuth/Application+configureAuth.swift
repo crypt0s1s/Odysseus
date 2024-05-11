@@ -13,8 +13,8 @@ extension Application {
         migrations.add(User.Migration())
         
         // MARK: - JWT
-        let key = Environment.processKey("SECRET")
-        jwt.signers.use(.hs256(key: key!))
+        let key = "JOKER" /*Environment.processKey("SECRET")*/
+        jwt.signers.use(.hs256(key: key))
 
         try routes()
     }

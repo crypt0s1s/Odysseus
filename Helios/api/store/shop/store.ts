@@ -37,6 +37,9 @@ export const ShopStore = types
     incrementOrderViews: () => {
       self.orderPageVisisted += 1
     }
+    getShopItemFromId(id: String) {
+      return self.shopItems.find((item) => item.id === id);
+    },
   }));
 
 export const getShop = () => {
