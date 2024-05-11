@@ -20,7 +20,7 @@ const createStore = (): RootStoreModel => {
   const auth = AuthStore.create();
   const profile = ProfileStore.create();
   const catalogue = CatalogueStore.create();
-  const shop = ShopStore.create();
+  const shop = ShopStore.create({orderPageVisisted: 0});
 
   const env: RootStoreEnv = {};
 

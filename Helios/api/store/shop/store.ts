@@ -1,6 +1,6 @@
 import { flow, types } from "mobx-state-tree";
 import { authHeaderInterceptor, createHeliosApi } from "../../core";
-import { ShopItemModel, ShoppingCartModel } from "./models";
+import { OrderModel, ShopItem, ShopItemModel, ShoppingCartModel } from "./models";
 import { useQuery } from "@tanstack/react-query";
 import { rootStore } from "@/api";
 import { ShopItemDetailsModel } from "./models/shopItemDetailsModel";
@@ -17,11 +17,15 @@ export const ShopStore = types
     shopItems: types.array(ShopItemModel),
     shopItemDetails: types.maybe(ShopItemDetailsModel),
     shoppingCart: types.optional(types.late(() => ShoppingCartModel), {}),
+    orders: types.array(OrderModel),
+    orderPageVisisted: types.number,
   })
   .actions((self) => ({
     getShopItems: flow(function* getShopItems() {
-      let result = yield shopApi.get("").json();
+      let result = yield shopApi.get("").json() as [ShopItem]
+      console.log(result)
       self.shopItems = result;
+      console.log(self.shopItems)
       return true;
     }),
     getShopItemDetails: flow(function* getShopItemDetails(id) {
@@ -30,6 +34,9 @@ export const ShopStore = types
       self.shopItemDetails = result;
       return true;
     }),
+    incrementOrderViews: () => {
+      self.orderPageVisisted += 1
+    }
   }));
 
 export const getShop = () => {
