@@ -18,10 +18,11 @@ export const ShoppingCartModel = types
       return totalCost;
     },
     calculateTotalItemCount() {
-      let count = 0;
+      var count = 0;
       self.cartItemList.forEach((item) => {
         count += item.quantity;
       });
+      console.log("Count: " + count);
       return count;
     },
   }))

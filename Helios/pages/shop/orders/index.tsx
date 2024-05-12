@@ -3,7 +3,12 @@ import FilterSidebar from "../FilterSidebar";
 import NavBar from "../NavBar";
 import SearchPanel from "../SearchPanel";
 import { StoreContext, getShop } from "@/api";
-import { Order, OrderModel, ShopItemModel } from "@/api/store/shop/models";
+import {
+  Order,
+  OrderModel,
+  ShopItemModel,
+  ShoppingCartModel,
+} from "@/api/store/shop/models";
 import { observer } from "mobx-react-lite";
 import { useContext, useEffect } from "react";
 import React from "react";
@@ -12,27 +17,80 @@ import { ShopItem } from "@/api/store/shop/models";
 import { CartItemQuantityModel } from "@/api/store/shop/models/cartItemQuantityModel";
 import Image from "next/image";
 import { ShopItemDetailsModel } from "@/api/store/shop/models/shopItemDetailsModel";
+import { Instance, flow, types } from "mobx-state-tree";
 
 const Page: NextPageWithLayout = observer(() => {
   const { shop } = useContext(StoreContext);
+
   var timesVisited = shop.orderViewCount;
   // TODO: display different orders based on number of times page visited
   useEffect(() => {
     shop.incrementOrderViewCount();
+
+    ConvertCartIntoOrder();
   }, []);
+
+  function ConvertCartIntoOrder() {
+    if (shop.shoppingCart.cartItemList.length == 0) return;
+
+    const dateOptions: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false, // Use 24-hour format
+    };
+
+    var itemOrder = OrderModel.create({
+      id: "id" + Math.random().toString(16).slice(2),
+      dateTime: new Date().toLocaleString(undefined, dateOptions),
+      totalPrice: 0.01,
+      imageUrl: "",
+      items: [],
+    });
+
+    shop.shoppingCart.cartItemList.forEach((cartItem) => {
+      const detailsToAdd = ShopItemDetailsModel.create({
+        id: cartItem.item.id,
+        name: cartItem.item.name,
+        //Change this to price?
+        minPrice: cartItem.item.minPrice,
+        imageUrl: cartItem.item.imageUrl,
+        imageAlt: cartItem.item.imageAlt,
+        description: cartItem.item.description,
+      });
+
+      const quantityModelToAdd = CartItemQuantityModel.create({
+        item: detailsToAdd,
+        quantity: cartItem.quantity,
+      });
+
+      //Add quantityModelToAdd to itemListToAdd here
+      itemOrder.addItem(quantityModelToAdd);
+    });
+
+    itemOrder.updateTotalCost();
+
+    shop.addOrderToSavedOrders(itemOrder);
+
+    shop.resetCartList();
+  }
 
   return (
     <main className="bg-white h-screen">
       <div className="flex flex-col bg-white pb-12">
-        <NavBar />
+        <NavBar showBackButton={true} />
         <div className="mx-12 gap-12 flex-col flex">
           {/* TODO: remove */}
-          <h1>{timesVisited}</h1>
+          <h1>Orders: </h1>
           {/* TODO: add mocks by no of times visited */}
-          <OrderComponent order={sampleOrder} />
-          {timesVisited == 3 && <OrderComponent order={sampleOrder} />}
           {/* <OrderComponent order={sampleOrder} />
-          <OrderComponent order={sampleOrder2} /> */}
+          {timesVisited == 3 && <OrderComponent order={sampleOrder} />} */}
+          {/* {shop.shopItems.map((item) => <ShopGridItem item={item} />)} */}
+          {shop.savedOrders.map((x) => (
+            <OrderComponent order={x} />
+          ))}
         </div>
       </div>
     </main>
@@ -123,6 +181,7 @@ const sampleOrder2 = OrderModel.create({
 
 const OrderComponent = ({ order }: { order: Order }) => {
   //<h5 className="flex">{order.items.reduce((v, c) => v + c.quantity, 0)} items</h5>
+  const totalPriceOrder = order.totalPrice.toFixed(2);
 
   return (
     <div className="flex bg-orange-200 flex-col rounded-xl p-3">
@@ -134,7 +193,7 @@ const OrderComponent = ({ order }: { order: Order }) => {
           </div>
           <div className="flex flex-col">
             <h5 className="flex">TOTAL</h5>
-            <h5 className="flex">${order.totalPrice}</h5>
+            <h5 className="flex">${totalPriceOrder}</h5>
           </div>
         </div>
         <div className="flex flex-col">
@@ -154,6 +213,8 @@ const OrderComponent = ({ order }: { order: Order }) => {
 };
 
 const ItemDisplay = ({ item, amount }: { item: ShopItem; amount: number }) => {
+  const totalPriceItem = (item.minPrice * amount).toFixed(2);
+
   return (
     <div className="flex-row flex grow w-full items-start align-top bg-white p-4 rounded-lg gap-2 justify-between">
       <img
@@ -169,9 +230,7 @@ const ItemDisplay = ({ item, amount }: { item: ShopItem; amount: number }) => {
             {amount} x ${item.minPrice}
           </p>
         )}
-        {amount > 1 && (
-          <p className="text-black">TOTAL: ${item.minPrice * amount}</p>
-        )}
+        {amount > 1 && <p className="text-black">TOTAL: ${totalPriceItem}</p>}
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ import {
 } from "@/api/store/shop/models/cartItemQuantityModel";
 import { ShopItemDetails } from "@/api/store/shop/models/shopItemDetailsModel";
 import { types } from "mobx-state-tree";
+import router from "next/router";
 import { ReactNode, useContext } from "react";
 
 interface CartSidebarProps {
@@ -71,12 +72,12 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ setIsCartOpen }) => {
     <div className="absolute z-10 top-0 right-0 flex flex-col w-[450px] h-screen py-4 bg-white border-l-2 shadow-xll">
       <div className="pl-5">
         <HeadingSection />
-        <ItemSection cart={cartTest} />
+        <ItemSection cart={shop.shoppingCart} />
       </div>
       <div className="flex-grow"></div>
       <div>
         <div className="py-1 pl-5">
-          <TotalSection cart={cartTest} />
+          <TotalSection cart={shop.shoppingCart} />
         </div>
         <BottomButtonsSection />
       </div>
@@ -85,11 +86,9 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ setIsCartOpen }) => {
 };
 
 function ItemSection({ cart }: { cart: ShoppingCart }) {
-  const { shop } = useContext(StoreContext);
-
   return (
     <div className="flex flex-col py-4 gap-4">
-      {shop.shoppingCart.cartItemList.map((item) => (
+      {cart.cartItemList.map((item) => (
         <ItemSectionComponent cartItem={item} />
       ))}
 
@@ -118,13 +117,13 @@ function ItemSectionComponent({ cartItem }: { cartItem: CartItemQuantity }) {
 }
 
 function TotalSection({ cart }: { cart: ShoppingCart }) {
+  const totalPrice = cart.calculateTotalCost().toFixed(2);
+
   return (
     <div className="flex flex-row items-center py-4">
       <span className="text-lg">Subtotal</span>
       <div className="w-20"></div>
-      <span className="text-lg text-amber-500">
-        $ {cart.calculateTotalCost()}
-      </span>
+      <span className="text-lg text-amber-500">$ {totalPrice}</span>
     </div>
   );
 }
@@ -146,7 +145,7 @@ const buttonStyle =
 
 function ButtonCheckout() {
   const handleClick = () => {
-    console.log("Button clicked!");
+    router.push(`/shop/orders`);
   };
 
   return (

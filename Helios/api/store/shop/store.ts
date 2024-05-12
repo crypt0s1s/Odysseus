@@ -1,6 +1,6 @@
-import { flow, types } from "mobx-state-tree";
+import { Instance, flow, types } from "mobx-state-tree";
 import { authHeaderInterceptor, createHeliosApi } from "../../core";
-import { ShopItemModel, ShoppingCartModel } from "./models";
+import { OrderModel, ShopItemModel, ShoppingCartModel } from "./models";
 import { useQuery } from "@tanstack/react-query";
 import { rootStore } from "@/api";
 import { ShopItemDetailsModel } from "./models/shopItemDetailsModel";
@@ -22,6 +22,7 @@ export const ShopStore = types
     ),
     // shoppingCart: ShoppingCartModel,
     orderViewCount: types.number,
+    savedOrders: types.array(OrderModel),
   })
   .actions((self) => ({
     getShopItems: flow(function* getShopItems() {
@@ -46,6 +47,12 @@ export const ShopStore = types
       if (item) {
         item.changeQuantity(quantity);
       }
+    },
+    addOrderToSavedOrders(order: Instance<typeof OrderModel>) {
+      self.savedOrders.push(order);
+    },
+    resetCartList() {
+      self.shoppingCart = ShoppingCartModel.create({ cartItemList: [] });
     },
   }));
 
