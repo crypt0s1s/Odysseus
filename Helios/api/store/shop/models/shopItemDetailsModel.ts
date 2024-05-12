@@ -3,7 +3,7 @@ import { ShopItemModel } from "./shopItemModel";
 
 export const ShopItemDetailsModel = types.compose(
   ShopItemModel,
-  types.model({
+  types.model("ShopItemDetails", {
     description: types.string,
   })
 );

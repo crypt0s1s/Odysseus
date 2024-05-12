@@ -15,7 +15,7 @@ const Page: NextPageWithLayout = () => {
   return (
     <main className="bg-white">
       <div className="flex flex-col">
-        <NavBar />
+        <NavBar showBackButton={false} />
         <div className="flex flex-row">
           {/* TODO fix on smaller screens SideBar shrinks and is not longer the correct width */}
           <FilterSidebar />{" "}

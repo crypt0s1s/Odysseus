@@ -11,13 +11,14 @@ import { useRouter } from "next/router";
 import { ShopItem } from "@/api/store/shop/models";
 import { CartItemQuantityModel } from "@/api/store/shop/models/cartItemQuantityModel";
 import Image from "next/image";
+import { ShopItemDetailsModel } from "@/api/store/shop/models/shopItemDetailsModel";
 
 const Page: NextPageWithLayout = observer(() => {
   const { shop } = useContext(StoreContext);
-  var timesVisited = shop.orderPageVisisted;
+  var timesVisited = shop.orderViewCount;
   // TODO: display different orders based on number of times page visited
   useEffect(() => {
-    shop.incrementOrderViews();
+    shop.incrementOrderViewCount();
   }, []);
 
   return (
@@ -28,43 +29,33 @@ const Page: NextPageWithLayout = observer(() => {
           {/* TODO: remove */}
           <h1>{timesVisited}</h1>
           {/* TODO: add mocks by no of times visited */}
-          {timesVisited == 0 && <OrderComponent order={sampleOrder} />}
           <OrderComponent order={sampleOrder} />
-          <OrderComponent order={sampleOrder} />
+          {timesVisited == 3 && <OrderComponent order={sampleOrder} />}
+          {/* <OrderComponent order={sampleOrder} />
+          <OrderComponent order={sampleOrder2} /> */}
         </div>
       </div>
     </main>
   );
 });
 
-const OrdersDisplay = observer(() => {
-  const { shop } = useContext(StoreContext);
-
-  return (
-    <div className="flex-col flex bg-white">
-      {shop.orders.map((order, i) => (
-        <OrderComponent order={order} key={i} />
-      ))}
-    </div>
-  );
-});
-
-const shopItemModel = ShopItemModel.create({
+const shopItemModel = ShopItemDetailsModel.create({
   id: "1242424",
-  name: "weed",
+  name: "Panadol",
   //Change this to price?
   minPrice: 23.42,
   imageUrl:
     "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.cmsmax.com%2Feq4rxnkvcouvc1anfqqhe%2Fcutwater-4pk-white-russian.png&f=1&nofb=1&ipt=9e35ceed93b7e6bc899e4cb6f2adcf95cb18164bb08df3f37f55159d3082e10f&ipo=images",
   imageAlt: "",
+  description: "Test",
 });
 
 const cartItemQuantityModel = CartItemQuantityModel.create({
-  itemId: shopItemModel,
+  item: shopItemModel,
   quantity: 3,
 });
 
-const shopItemModel2 = ShopItemModel.create({
+const shopItemModel2 = ShopItemDetailsModel.create({
   id: "12424244",
   name: "water",
   //Change this to price?
@@ -72,10 +63,11 @@ const shopItemModel2 = ShopItemModel.create({
   imageUrl:
     "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.cmsmax.com%2Feq4rxnkvcouvc1anfqqhe%2Fcutwater-4pk-white-russian.png&f=1&nofb=1&ipt=9e35ceed93b7e6bc899e4cb6f2adcf95cb18164bb08df3f37f55159d3082e10f&ipo=images",
   imageAlt: "",
+  description: "Test",
 });
 
 const cartItemQuantityModel2 = CartItemQuantityModel.create({
-  itemId: shopItemModel2,
+  item: shopItemModel2,
   quantity: 1,
 });
 
@@ -86,6 +78,47 @@ const sampleOrder = OrderModel.create({
   imageUrl:
     "https://upload.wikimedia.org/wikipedia/commons/0/0c/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png",
   items: [cartItemQuantityModel, cartItemQuantityModel2],
+});
+
+const shopItemModel3 = ShopItemDetailsModel.create({
+  id: "12424244",
+  name: "Choc",
+  //Change this to price?
+  minPrice: 99.99,
+  imageUrl:
+    "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.cmsmax.com%2Feq4rxnkvcouvc1anfqqhe%2Fcutwater-4pk-white-russian.png&f=1&nofb=1&ipt=9e35ceed93b7e6bc899e4cb6f2adcf95cb18164bb08df3f37f55159d3082e10f&ipo=images",
+  imageAlt: "",
+  description: "Test",
+});
+
+const shopItemModel4 = ShopItemDetailsModel.create({
+  id: "12424244",
+  name: "Miiilk",
+  //Change this to price?
+  minPrice: 23.42,
+  imageUrl:
+    "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.cmsmax.com%2Feq4rxnkvcouvc1anfqqhe%2Fcutwater-4pk-white-russian.png&f=1&nofb=1&ipt=9e35ceed93b7e6bc899e4cb6f2adcf95cb18164bb08df3f37f55159d3082e10f&ipo=images",
+  imageAlt: "",
+  description: "Test",
+});
+
+const cartItemQuantityModel3 = CartItemQuantityModel.create({
+  item: shopItemModel3,
+  quantity: 4,
+});
+
+const cartItemQuantityModel4 = CartItemQuantityModel.create({
+  item: shopItemModel4,
+  quantity: 5,
+});
+
+const sampleOrder2 = OrderModel.create({
+  id: "12124e123124",
+  dateTime: "15th June 12:42pm",
+  totalPrice: 9999.99,
+  imageUrl:
+    "https://upload.wikimedia.org/wikipedia/commons/0/0c/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png",
+  items: [cartItemQuantityModel3, cartItemQuantityModel4],
 });
 
 const OrderComponent = ({ order }: { order: Order }) => {
@@ -112,7 +145,7 @@ const OrderComponent = ({ order }: { order: Order }) => {
       <div className="flex items-center gap-3">
         <div className="flex flex-col gap-6 w-full">
           {order.items.map((item, i) => (
-            <ItemDisplay item={item.itemId} amount={item.quantity} key={i} />
+            <ItemDisplay item={item.item} amount={item.quantity} key={i} />
           ))}
         </div>
       </div>
@@ -136,7 +169,9 @@ const ItemDisplay = ({ item, amount }: { item: ShopItem; amount: number }) => {
             {amount} x ${item.minPrice}
           </p>
         )}
-        {amount > 1 && <p className="text-black">TOTAL: ${item.minPrice}</p>}
+        {amount > 1 && (
+          <p className="text-black">TOTAL: ${item.minPrice * amount}</p>
+        )}
       </div>
     </div>
   );

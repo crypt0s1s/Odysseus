@@ -5,7 +5,7 @@ const FilterSidebar = () => {
     <div
       className="top-0 left-0 h-screen w-[220px] m-0 
     flex flex-col bg-white text-blue-800 px-6 py-4 gap-4
-     border-2 border-gray-200 shadow"
+     border-r-2 border-gray-200 shadow"
     >
       <SideBarSection title={"Category 1"}>
         <ul>

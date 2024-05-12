@@ -1,6 +1,7 @@
 import { createContext, useContext } from "react";
 import { types, Instance, castToSnapshot } from "mobx-state-tree";
 import { AuthStore, CatalogueStore, ProfileStore, ShopStore } from "./store";
+import { ShoppingCartModel } from "./store/shop/models";
 
 type RootStoreModel = Instance<typeof RootStore>;
 
@@ -20,7 +21,9 @@ const createStore = (): RootStoreModel => {
   const auth = AuthStore.create();
   const profile = ProfileStore.create();
   const catalogue = CatalogueStore.create();
-  const shop = ShopStore.create({orderPageVisisted: 0});
+  const shop = ShopStore.create({
+    orderViewCount: 0,
+  });
 
   const env: RootStoreEnv = {};
 

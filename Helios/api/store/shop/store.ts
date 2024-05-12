@@ -20,6 +20,8 @@ export const ShopStore = types
       types.late(() => ShoppingCartModel),
       {}
     ),
+    // shoppingCart: ShoppingCartModel,
+    orderViewCount: types.number,
   })
   .actions((self) => ({
     getShopItems: flow(function* getShopItems() {
@@ -35,6 +37,15 @@ export const ShopStore = types
     }),
     getShopItemFromId(id: String) {
       return self.shopItems.find((item) => item.id === id);
+    },
+    incrementOrderViewCount() {
+      self.orderViewCount += 1;
+    },
+    changeQuantityOfCartItem(ID: string, quantity: number) {
+      let item = self.shoppingCart.cartItemList.find((x) => x.item.id === ID);
+      if (item) {
+        item.changeQuantity(quantity);
+      }
     },
   }));
 

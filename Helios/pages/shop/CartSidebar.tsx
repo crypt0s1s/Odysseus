@@ -12,8 +12,18 @@ import { ShopItemDetails } from "@/api/store/shop/models/shopItemDetailsModel";
 import { types } from "mobx-state-tree";
 import { ReactNode, useContext } from "react";
 
+interface CartSidebarProps {
+  setIsCartOpen: (isOpen: boolean) => void;
+}
+
 // Cart sidebar should float on top of other screen elements.
-const CartSidebar = () => {
+const CartSidebar: React.FC<CartSidebarProps> = ({ setIsCartOpen }) => {
+  const handleCloseCart = () => {
+    setIsCartOpen(false);
+  };
+
+  const { shop } = useContext(StoreContext);
+
   const shopItemTest: ShopItemDetails = {
     id: "12345",
     name: "Orange Juice",
@@ -38,6 +48,25 @@ const CartSidebar = () => {
 
   cartTest.addCartItem(shopItemTest, 3);
   cartTest.addCartItem(shopItemTest2, 150);
+
+  function HeadingSection() {
+    return (
+      <div className="flex flex-col gap-y-4">
+        <div className="flex flex-row justify-between items-center">
+          <h3 className="font-semibold ">Shopping Cart</h3>
+
+          <button onClick={handleCloseCart}>
+            <span className="text-2xl px-4" aria-hidden="true">
+              &times;
+            </span>{" "}
+            {/* Unicode character for "x" symbol */}
+          </button>
+        </div>
+        <hr className="border-slate-200 w-10/12" />
+      </div>
+    );
+  }
+
   return (
     <div className="absolute z-10 top-0 right-0 flex flex-col w-[450px] h-screen py-4 bg-white border-l-2 shadow-xll">
       <div className="pl-5">
@@ -54,15 +83,6 @@ const CartSidebar = () => {
     </div>
   );
 };
-
-function HeadingSection() {
-  return (
-    <div className="flex flex-col gap-y-4">
-      <h3 className="font-semibold ">Shopping Cart</h3>
-      <hr className="border-slate-200 w-10/12" />
-    </div>
-  );
-}
 
 function ItemSection({ cart }: { cart: ShoppingCart }) {
   const { shop } = useContext(StoreContext);
